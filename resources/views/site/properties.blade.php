@@ -8,7 +8,7 @@
 </div></section>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-4 gap-8">
-    <form method="GET" class="lg:col-span-1 card p-5 h-fit lg:sticky lg:top-20 space-y-4">
+    <form method="GET" class="lg:col-span-1 card p-5 h-fit lg:sticky lg:top-20 space-y-4" aria-label="فلترة العقارات">
         <h2 class="font-bold text-ink flex items-center gap-2"><i class="bi bi-funnel"></i> فلترة النتائج</h2>
         <div><label class="label">بحث</label><input name="q" value="{{ $filters['q'] ?? '' }}" class="field" placeholder="منطقة أو اسم"></div>
         <div><label class="label">المحافظة</label>
