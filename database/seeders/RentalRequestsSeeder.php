@@ -34,11 +34,19 @@ class RentalRequestsSeeder extends Seeder
             match ($i % 6) {
                 1 => $rr->update(['status' => 'negotiating', 'last_offer_by' => 'owner', 'proposed_rent' => $p->offered_rent]),
                 2 => $rr->accept(),
-                3 => tap($rr)->accept()->markPaid('owner'),
+                3 => $this->complete($rr),
                 4 => $rr->update(['status' => 'rejected']),
                 5 => $rr->update(['status' => 'cancelled']),
                 default => null,
             };
         }
+    }
+
+    /** اتفاق + سداد الطرفين = عقد مكتمل والعقار يتأجر */
+    private function complete(RentalRequest $rr): void
+    {
+        $rr->accept();
+        $rr->markPaid('owner');
+        $rr->markPaid('tenant');
     }
 }
