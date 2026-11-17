@@ -6,11 +6,15 @@ use App\Models\User;
 use App\Support\ArabicData;
 use App\Support\EgyptData;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /** @extends Factory<User> */
 class UserFactory extends Factory
 {
     protected $model = User::class;
+
+    /** نعمل hash مرة واحدة بس عشان السيدر يبقى سريع */
+    protected static ?string $password = null;
 
     public function definition(): array
     {
@@ -18,9 +22,9 @@ class UserFactory extends Factory
 
         return [
             'name' => ArabicData::name(),
-            'email' => fake()->unique()->userName().fake()->unique()->numerify('##').'@'.fake()->randomElement(['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com']),
+            'email' => fake()->userName().fake()->unique()->numerify('####').'@'.fake()->randomElement(['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com']),
             'phone' => '01'.fake()->randomElement([0, 1, 2, 5]).fake()->unique()->numerify('########'),
-            'password' => 'password',
+            'password' => static::$password ??= Hash::make('password'),
             'role' => 'tenant',
             'governorate' => $loc['governorate'],
             'city' => $loc['city'],
