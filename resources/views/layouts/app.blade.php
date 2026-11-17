@@ -32,6 +32,7 @@
     @stack('head')
 </head>
 <body class="bg-white text-slate-800 antialiased font-sans">
+    <a href="#main" class="skip-link">تخطّي إلى المحتوى</a>
 
     @include('partials.header')
 
