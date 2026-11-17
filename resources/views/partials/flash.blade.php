@@ -6,7 +6,7 @@
             </div>
         @endif
         @if (session('error'))
-            <div class="rounded-xl bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 text-sm flex items-center gap-2 dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-200">
+            <div data-flash role="alert" class="rounded-xl bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 text-sm flex items-center gap-2 dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-200">
                 <i class="bi bi-exclamation-triangle-fill"></i> {{ session('error') }}
             </div>
         @endif
