@@ -20,7 +20,7 @@
                 <a href="{{ route('login') }}" class="w-8 h-8 rounded-full bg-white/95 text-ink flex items-center justify-center shadow hover:scale-105 transition" title="سجّل دخولك لحفظ العقار" aria-label="سجّل دخولك لحفظ العقار"><i class="bi bi-heart"></i></a>
             @elseif ($u->isTenant())
                 <form method="POST" action="{{ route('favorites.toggle', $property->id) }}">@csrf
-                    <button class="w-8 h-8 rounded-full bg-white/95 flex items-center justify-center shadow hover:scale-105 transition {{ $fav ? 'text-rose-500' : 'text-ink' }}" title="المفضلة"><i class="bi {{ $fav ? 'bi-heart-fill' : 'bi-heart' }}"></i></button>
+                    <button class="w-8 h-8 rounded-full bg-white/95 flex items-center justify-center shadow hover:scale-105 transition {{ $fav ? 'text-rose-500' : 'text-ink' }}" title="المفضلة" aria-label="{{ $fav ? 'إزالة من المفضلة' : 'إضافة للمفضلة' }}" aria-pressed="{{ $fav ? 'true' : 'false' }}"><i class="bi {{ $fav ? 'bi-heart-fill' : 'bi-heart' }}"></i></button>
                 </form>
             @endif
             <form method="POST" action="{{ route('compare.toggle', $property->id) }}">@csrf
