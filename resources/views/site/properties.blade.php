@@ -35,6 +35,20 @@
     </form>
 
     <div class="lg:col-span-3">
+        @php
+            $labels = ['q' => 'بحث', 'governorate' => 'محافظة', 'type' => 'النوع', 'stage' => 'التشطيب', 'purpose' => 'الغرض', 'min_price' => 'إيجار من', 'max_price' => 'إيجار حتى', 'min_area' => 'مساحة من', 'years' => 'سنين'];
+            $active = collect($filters)->only(array_keys($labels))->filter(fn ($v) => $v !== null && $v !== '');
+        @endphp
+        @if ($active->isNotEmpty())
+            <div class="flex flex-wrap items-center gap-2 mb-5" aria-label="الفلاتر المفعّلة">
+                @foreach ($active as $k => $v)
+                    <a href="{{ route('properties.index', collect($filters)->except($k)->all()) }}" class="inline-flex items-center gap-1.5 text-xs font-semibold bg-brand-50 text-brand-dark border border-brand/30 rounded-full ps-3 pe-2 py-1.5 hover:bg-brand-100" title="إزالة الفلتر">
+                        {{ $labels[$k] }}: {{ catalog('property_types')[$v] ?? catalog('purposes')[$v] ?? (catalog('finishing_stages')[$v]['label'] ?? $v) }} <i class="bi bi-x-circle-fill"></i>
+                    </a>
+                @endforeach
+                <a href="{{ route('properties.index') }}" class="text-xs text-slate-500 underline">مسح الكل</a>
+            </div>
+        @endif
         @if ($properties->count())
             <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 @foreach ($properties as $property) @include('partials.property-card') @endforeach
