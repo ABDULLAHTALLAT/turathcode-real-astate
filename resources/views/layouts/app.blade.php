@@ -6,6 +6,13 @@
     <title>@yield('title', 'بيتك في ايدك') — {{ config('site.name') }}</title>
     <meta name="description" content="@yield('description', 'منصة بيتك في ايدك: اعرض أو استأجر المباني والشقق المعطلة في مصر بإيجار مخفض لمدة طويلة، مع تفاصيل التشطيب كاملة.')">
     <meta name="theme-color" content="#0b2447">
+    <meta name="color-scheme" content="light dark">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_EG">
+    <meta property="og:site_name" content="{{ config('site.name') }}">
+    <meta property="og:title" content="@yield('title', 'بيتك في ايدك') — {{ config('site.name') }}">
+    <meta property="og:description" content="@yield('description', 'اعرض أو استأجر المباني والشقق المعطلة في مصر بإيجار مخفض لمدة طويلة.')">
+    <meta property="og:image" content="@yield('og_image', asset('images/logo.png'))">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script>
