@@ -36,7 +36,7 @@
 
     @include('partials.header')
 
-    <main>
+    <main id="main" tabindex="-1">
         @include('partials.flash')
         @yield('content')
     </main>
