@@ -14,7 +14,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'password', 'role', 'avatar', 'governorate', 'city', 'bio', 'is_active',
+        'name', 'email', 'phone', 'password', 'role', 'avatar', 'avatar_media_id', 'governorate', 'city', 'bio', 'is_active',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -39,6 +39,10 @@ class User extends Authenticatable
 
     public function getAvatarUrlAttribute(): string
     {
+        if ($this->avatar_media_id) {
+            return route('media.show', ['media' => Media::whereKey($this->avatar_media_id)->value('uuid'), 'variant' => 'thumb']);
+        }
+
         return $this->avatar
             ? asset('storage/'.$this->avatar)
             : 'https://ui-avatars.com/api/?background=6bbce9&color=0b2447&bold=true&size=200&name='.urlencode($this->name);

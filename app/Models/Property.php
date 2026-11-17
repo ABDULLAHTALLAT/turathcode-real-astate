@@ -52,7 +52,7 @@ class Property extends Model
 
     // ---------- العلاقات ----------
     public function owner(): BelongsTo { return $this->belongsTo(User::class, 'owner_id'); }
-    public function images(): HasMany { return $this->hasMany(PropertyImage::class)->orderByDesc('is_cover')->orderBy('sort'); }
+    public function images(): HasMany { return $this->hasMany(PropertyImage::class)->with('media:id,uuid')->orderByDesc('is_cover')->orderBy('sort'); }
     public function finishingItems(): HasMany { return $this->hasMany(FinishingItem::class); }
     public function requests(): HasMany { return $this->hasMany(RentalRequest::class); }
 
@@ -83,18 +83,21 @@ class Property extends Model
     public function getStatusLabelAttribute(): string { return catalog('property_statuses')[$this->status]['label'] ?? $this->status; }
     public function getStatusColorAttribute(): string { return catalog('property_statuses')[$this->status]['color'] ?? 'slate'; }
 
-    public function getCoverUrlAttribute(): string
+    public function coverUrl(string $variant = 'medium'): string
     {
         $img = $this->relationLoaded('images') ? $this->images->first() : $this->images()->first();
 
         if ($img) {
-            return $img->url;
+            return $img->variantUrl($variant);
         }
 
         $fallback = 'images/covers/'.$this->property_type.'.svg';
 
         return asset(file_exists(public_path($fallback)) ? $fallback : 'images/placeholder.svg');
     }
+
+    public function getCoverUrlAttribute(): string { return $this->coverUrl('medium'); }
+    public function getCoverThumbAttribute(): string { return $this->coverUrl('thumb'); }
 
     /** العنوان العام (بدون رقم العقار/الشقة) — يظهر لأي زائر */
     public function getPublicAddressAttribute(): string

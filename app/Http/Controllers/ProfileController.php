@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TenantProfile;
+use App\Services\ImageProcessor;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -34,7 +35,12 @@ class ProfileController extends Controller
         ]);
 
         if ($request->hasFile('avatar')) {
-            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+            try {
+                $data['avatar_media_id'] = app(ImageProcessor::class)->storeUpload($request->file('avatar'), $user, $user->name)->id;
+            } catch (\InvalidArgumentException $e) {
+                return back()->withErrors(['avatar' => $e->getMessage()])->withInput();
+            }
+            unset($data['avatar']);
         } else {
             unset($data['avatar']);
         }
