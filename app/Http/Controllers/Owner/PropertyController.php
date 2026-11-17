@@ -7,7 +7,9 @@ use App\Models\FinishingItem;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\Setting;
+use App\Services\ImageProcessor;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 
 class PropertyController extends Controller
@@ -60,7 +62,6 @@ class PropertyController extends Controller
 
         $this->syncFinishing($property, $request);
         foreach ($property->images()->whereIn('id', (array) $request->input('remove_images', []))->get() as $img) {
-            Storage::disk('public')->delete($img->path);
             $img->delete();
         }
         $this->storeImages($property, $request);
@@ -179,9 +180,15 @@ class PropertyController extends Controller
         $hasCover = $property->images()->where('is_cover', true)->exists();
 
         foreach ((array) $request->file('images', []) as $file) {
+            try {
+                $media = app(ImageProcessor::class)->storeUpload($file, $request->user(), $property->title);
+            } catch (\InvalidArgumentException $e) {
+                throw ValidationException::withMessages(['images' => $e->getMessage()]);
+            }
             PropertyImage::create([
                 'property_id' => $property->id,
-                'path' => $file->store('properties', 'public'),
+                'media_id' => $media->id,
+                'path' => 'media:'.$media->uuid,
                 'is_cover' => ! $hasCover,
                 'sort' => ++$sort,
             ]);
