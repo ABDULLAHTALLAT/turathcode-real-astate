@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RentalRequest extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'code', 'property_id', 'tenant_id', 'owner_id', 'purpose', 'marital_status', 'occupants', 'start_date', 'message',
         'proposed_rent', 'lease_years', 'last_offer_by', 'status', 'total_value',
