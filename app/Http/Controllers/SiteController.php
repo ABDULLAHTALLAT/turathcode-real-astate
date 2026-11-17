@@ -24,6 +24,7 @@ class SiteController extends Controller
                 'tenants' => User::where('role', 'tenant')->count(),
             ],
             // الأقسام: الدخول من الهوم بيدج عن طريق نوع العقار / مرحلة التشطيب
+            'govCounts' => Property::published()->selectRaw('governorate, count(*) c')->groupBy('governorate')->orderByDesc('c')->limit(12)->pluck('c', 'governorate'),
             'typeCounts' => Property::published()->selectRaw('property_type, count(*) c')->groupBy('property_type')->pluck('c', 'property_type'),
             'stageCounts' => Property::published()->selectRaw('finishing_stage, count(*) c')->groupBy('finishing_stage')->pluck('c', 'finishing_stage'),
         ]);
