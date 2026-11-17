@@ -6,6 +6,7 @@ use App\Models\FinishingItem;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\User;
+use App\Services\ImageProcessor;
 use App\Support\EgyptData;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +14,9 @@ use Illuminate\Database\Seeder;
 class EgyptPropertiesSeeder extends Seeder
 {
     public const PER_GOVERNORATE = 6;
+
+    /** @var array<string,array<string,string>> */
+    private array $pool = [];
 
     public function run(): void
     {
@@ -50,6 +54,34 @@ class EgyptPropertiesSeeder extends Seeder
             FinishingItem::create(['property_id' => $p->id, 'item_key' => $key, 'status' => $status]);
         }
 
-        PropertyImage::create(['property_id' => $p->id, 'path' => 'images/covers/'.$p->property_type.'.svg', 'is_cover' => true, 'sort' => 0]);
+        $this->images($p);
+    }
+
+    /**
+     * صور العقار: واجهة حسب نوعه + 3 صور داخلية حسب مرحلة التشطيب.
+     * بتتخزن في public/uploads/properties/{id}/ بنفس مسار الرفع الحقيقي (من غير storage).
+     * المكتبة في database/seed-images — استبدلها بصور حقيقية متى أحببت.
+     */
+    private function images(Property $p): void
+    {
+        $dir = database_path('seed-images');
+        $processor = app(ImageProcessor::class);
+        $files = ["facade-{$p->property_type}-".($p->id % 3).'.jpg'];
+        foreach (['living', 'hall', 'bath'] as $room) {
+            $files[] = "interior-{$p->finishing_stage}-{$room}.jpg";
+        }
+
+        foreach ($files as $sort => $file) {
+            if (! is_file("$dir/$file")) {
+                continue;
+            }
+            PropertyImage::create([
+                'property_id' => $p->id,
+                // نعالج كل صورة مرة واحدة ونكتب نسخها لكل عقار (أسرع بكتير)
+                'path' => $processor->write($this->pool[$file] ??= $processor->process(file_get_contents("$dir/$file")), 'properties/'.$p->id),
+                'is_cover' => $sort === 0,
+                'sort' => $sort,
+            ]);
+        }
     }
 }
