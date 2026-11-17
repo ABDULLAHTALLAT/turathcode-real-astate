@@ -1,7 +1,7 @@
 @if (session('success') || session('error') || $errors->any())
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 relative z-30">
         @if (session('success'))
-            <div class="rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm flex items-center gap-2 dark:bg-emerald-950/40 dark:border-emerald-900 dark:text-emerald-200">
+            <div data-flash role="status" aria-live="polite" class="rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm flex items-center gap-2 dark:bg-emerald-950/40 dark:border-emerald-900 dark:text-emerald-200">
                 <i class="bi bi-check-circle-fill"></i> {{ session('success') }}
             </div>
         @endif
