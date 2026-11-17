@@ -40,6 +40,7 @@
             <span><i class="bi bi-building text-slate-400"></i> {{ $property->type_label }}</span>
             <span><i class="bi bi-arrows-fullscreen text-slate-400"></i> {{ $property->area_m2 }} م²</span>
             @if ($property->rooms)<span><i class="bi bi-door-closed text-slate-400"></i> {{ $property->rooms }} غرف</span>@endif
+            @if ($property->vacant_since_years)<span class="text-amber-600"><i class="bi bi-hourglass-split"></i> معطل من {{ $property->vacant_since_years }} {{ $property->vacant_since_years > 10 ? 'سنة' : 'سنين' }}</span>@endif
         </div>
 
         @php($s = $property->relationLoaded('finishingItems') ? $property->finishingSummary() : null)
