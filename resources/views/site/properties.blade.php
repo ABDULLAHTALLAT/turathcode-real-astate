@@ -60,6 +60,7 @@
                 <i class="bi bi-house-slash text-5xl text-slate-300"></i>
                 <p class="font-bold text-ink mt-4">مفيش عقارات بالمواصفات دي حالياً</p>
                 <p class="text-sm text-slate-500 mt-1">جرّب تغيّر الفلاتر أو ارجع تاني قريب.</p>
+                <a href="{{ route('properties.index') }}" class="btn btn-brand mt-5">اعرض كل العقارات</a>
             </div>
         @endif
     </div>
