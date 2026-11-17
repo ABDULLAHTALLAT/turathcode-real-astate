@@ -10,7 +10,7 @@
     .field { min-height: 44px; width: 100%; border-radius: .75rem; border: 1px solid #cbd5e1; background: #fff; padding: .65rem .9rem; font-size: .9rem; transition: .15s; }
     .field:focus { outline: none; border-color: #6bbce9; box-shadow: 0 0 0 3px rgba(107,188,233,.25); }
     .label { display: block; font-size: .8rem; font-weight: 600; color: #334155; margin-bottom: .35rem; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: .75rem; padding: .65rem 1.25rem; font-weight: 600; font-size: .9rem; transition: .15s; cursor: pointer; }
+    .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: .75rem; padding: .65rem 1.25rem; font-weight: 600; font-size: .9rem; transition: .15s; cursor: pointer; }
     .btn-primary { background: #0b2447; color: #fff; } .btn-primary:hover { background: #1a3f6b; }
     .btn-brand { background-image: linear-gradient(135deg, #a8d9f3, #6bbce9 55%, #3a9ad0); color: #0b2447; } .btn-brand:hover { filter: brightness(1.06); }
     .btn-ghost { border: 1px solid #cbd5e1; color: #0b2447; background: #fff; } .btn-ghost:hover { border-color: #6bbce9; background: #eef7fd; }
