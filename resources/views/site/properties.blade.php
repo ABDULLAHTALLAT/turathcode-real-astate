@@ -20,7 +20,7 @@
         <div><label class="label">الغرض</label>
             <select name="purpose" class="field"><option value="">الكل</option>@foreach (catalog('purposes') as $k => $v)<option value="{{ $k }}" @selected(($filters['purpose'] ?? '') === $k)>{{ $v }}</option>@endforeach</select></div>
         <div class="grid grid-cols-2 gap-2">
-            <div><label class="label">إيجار من</label><input type="number" name="min_price" value="{{ $filters['min_price'] ?? '' }}" class="field"></div>
+            <div><label class="label">إيجار من</label><input type="number" name="min_price" min="0" step="500" inputmode="numeric" value="{{ $filters['min_price'] ?? '' }}" class="field"></div>
             <div><label class="label">إلى</label><input type="number" name="max_price" value="{{ $filters['max_price'] ?? '' }}" class="field"></div>
         </div>
         <div class="grid grid-cols-2 gap-2">
