@@ -49,4 +49,7 @@
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
     }
+    /* حقول فيها خطأ تبان بوضوح (مش بس باللون الأحمر) */
+    .field[aria-invalid=true], .field.is-invalid { border-color: #e11d48; background-image: none; box-shadow: 0 0 0 3px rgba(225,29,72,.15); }
+    .field-error { color: #be123c; font-size: .75rem; margin-top: .3rem; display: flex; gap: .35rem; align-items: center; }
 </style>
