@@ -14,6 +14,11 @@ class PropertyImage extends Model
 
     public function getUrlAttribute(): string
     {
-        return str_starts_with($this->path, 'http') ? $this->path : asset('storage/'.$this->path);
+        if (str_starts_with($this->path, 'http')) {
+            return $this->path;
+        }
+
+        // صور افتراضية داخل public/images
+        return str_starts_with($this->path, 'images/') ? asset($this->path) : asset('storage/'.$this->path);
     }
 }
