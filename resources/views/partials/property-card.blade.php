@@ -9,6 +9,9 @@
             <img src="{{ $property->cover_url }}" alt="{{ $property->title }}" loading="lazy" decoding="async" width="640" height="384" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
         </a>
         <span class="absolute top-3 start-3 bg-ink/85 text-brand text-xs font-semibold px-2.5 py-1 rounded-lg">{{ $property->stage_label }}</span>
+        @if ($property->is_featured)
+            <span class="absolute bottom-3 end-3 bg-amber-400 text-ink text-xs font-bold px-2.5 py-1 rounded-lg"><i class="bi bi-star-fill"></i> مميز</span>
+        @endif
         @if ($property->discount_percent)
             <span class="absolute bottom-3 start-3 bg-emerald-500 text-white text-xs font-bold px-2.5 py-1 rounded-lg">وفّر {{ $property->discount_percent }}%</span>
         @endif
