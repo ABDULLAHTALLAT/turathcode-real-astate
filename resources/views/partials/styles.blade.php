@@ -56,4 +56,11 @@
     .card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
     @media (hover: hover) { article.card:hover { transform: translateY(-3px); } }
     img[loading=lazy] { background: linear-gradient(110deg, #eef2f6 8%, #f8fafc 18%, #eef2f6 33%); background-size: 200% 100%; }
+    /* مساحة آمنة للجوالات اللي فيها شريط سفلي */
+    .safe-bottom { padding-bottom: max(1.25rem, env(safe-area-inset-bottom)); }
+    @media print {
+        header, footer, .dock, [data-theme-toggle], [data-to-top], .no-print { display: none !important; }
+        body { background: #fff !important; color: #000 !important; }
+        .card { border: 1px solid #ccc !important; box-shadow: none !important; break-inside: avoid; }
+    }
 </style>
