@@ -87,7 +87,13 @@ class Property extends Model
     {
         $img = $this->relationLoaded('images') ? $this->images->first() : $this->images()->first();
 
-        return $img?->url ?? asset('images/placeholder.svg');
+        if ($img) {
+            return $img->url;
+        }
+
+        $fallback = 'images/covers/'.$this->property_type.'.svg';
+
+        return asset(file_exists(public_path($fallback)) ? $fallback : 'images/placeholder.svg');
     }
 
     /** العنوان العام (بدون رقم العقار/الشقة) — يظهر لأي زائر */
