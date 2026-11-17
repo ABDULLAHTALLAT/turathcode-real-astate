@@ -7,6 +7,14 @@
         setTimeout(function () { el.style.transition = 'opacity .4s'; el.style.opacity = '0'; setTimeout(function () { el.remove(); }, 400); }, 6000);
     });
 
+    // منع الضغط المزدوج على زر الإرسال
+    $$('form').forEach(function (f) {
+        f.addEventListener('submit', function () {
+            var b = f.querySelector('button:not([type=button])');
+            if (b && !f.hasAttribute('data-allow-resubmit')) { setTimeout(function () { b.disabled = true; b.classList.add('opacity-60', 'cursor-wait'); }, 0); }
+        });
+    });
+
     // الوضع الليلي
     $$('[data-theme-toggle]').forEach(function (b) {
         b.addEventListener('click', function () {
