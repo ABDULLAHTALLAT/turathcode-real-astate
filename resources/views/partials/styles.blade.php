@@ -46,4 +46,7 @@
     :focus-visible { outline: 3px solid #6bbce9; outline-offset: 2px; border-radius: .4rem; }
     .skip-link { position: absolute; inset-inline-start: 1rem; top: -4rem; z-index: 100; background: #0b2447; color: #fff; padding: .6rem 1rem; border-radius: .75rem; font-weight: 600; transition: top .15s; }
     .skip-link:focus { top: 1rem; }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
 </style>
