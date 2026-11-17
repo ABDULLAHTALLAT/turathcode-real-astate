@@ -53,7 +53,8 @@
             <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 @foreach ($properties as $property) @include('partials.property-card') @endforeach
             </div>
-            <div class="mt-8">{{ $properties->links() }}</div>
+            <p class="mt-8 text-center text-xs text-slate-500">عرض {{ $properties->firstItem() }} إلى {{ $properties->lastItem() }} من {{ $properties->total() }} عقار</p>
+            <div class="mt-3">{{ $properties->links() }}</div>
         @else
             <div class="card p-12 text-center">
                 <i class="bi bi-house-slash text-5xl text-slate-300"></i>
