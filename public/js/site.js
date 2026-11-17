@@ -2,6 +2,11 @@
     var $ = function (s, r) { return (r || document).querySelector(s); };
     var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+    // رسائل التنبيه: تختفي لوحدها بعد 6 ثواني (الأخطاء بتفضل)
+    $$('[data-flash][role=status]').forEach(function (el) {
+        setTimeout(function () { el.style.transition = 'opacity .4s'; el.style.opacity = '0'; setTimeout(function () { el.remove(); }, 400); }, 6000);
+    });
+
     // الوضع الليلي
     $$('[data-theme-toggle]').forEach(function (b) {
         b.addEventListener('click', function () {
