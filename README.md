@@ -18,7 +18,6 @@ composer install
 cp .env.example .env        # عدّل بيانات MySQL
 php artisan key:generate
 php artisan migrate --seed
-php artisan storage:link
 php artisan serve
 ```
 حساب الأدمن الافتراضي: `admin@turathcode.com` / `Admin@12345` — **غيّره قبل النشر**.
@@ -33,6 +32,16 @@ php artisan serve
 - مفضلات ورسائل تواصل.
 
 الفاكتوري: `Property::factory()->in('أسوان')->stage('plaster')->featured()->create()`.
+
+## الصور (بدون storage)
+الصور المرفوعة بتتحفظ كملفات WebP منظمة جوه `public/uploads` — مفيش `storage:link` ولا قاعدة بيانات:
+```
+public/uploads/properties/{رقم العقار}/{id}-thumb|medium|large.webp
+public/uploads/avatars/{رقم المستخدم}/{id}-thumb|medium|large.webp
+```
+- كل صورة بتتفحص (محتواها الحقيقي)، وتتحول WebP وتتمسح منها بيانات EXIF، وتتعمل 3 مقاسات.
+- مسح صورة أو عقار بيمسح ملفاته. المجلد `public/uploads` متتجاهل في git (خد منه نسخة احتياطية على السيرفر).
+- الـ seed بيولّد لكل عقار 4 صور (واجهة + 3 داخلية حسب مرحلة التشطيب) من مكتبة `database/seed-images` — صور توضيحية، استبدلها بصور حقيقية.
 
 ## الاختبار
 ```bash
