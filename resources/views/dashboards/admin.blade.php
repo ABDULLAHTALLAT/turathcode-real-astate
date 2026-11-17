@@ -39,7 +39,7 @@
     <div class="divide-y divide-slate-100">
         @forelse ($pendingProperties as $p)
             <div class="p-4 flex items-center gap-4">
-                <img src="{{ $p->cover_url }}" class="w-16 h-16 rounded-xl object-cover shrink-0" alt="">
+                <img src="{{ $p->cover_thumb }}" class="w-16 h-16 rounded-xl object-cover shrink-0" alt="">
                 <div class="min-w-0 flex-1"><a href="{{ route('properties.show', $p) }}" class="font-bold text-ink hover:text-brand-dark truncate block">{{ $p->title }}</a><p class="text-xs text-slate-500">{{ $p->owner->name }} · {{ $p->city }} · {{ egp($p->offered_rent) }}</p></div>
                 <form method="POST" action="{{ route('admin.properties.approve', $p) }}">@csrf<button class="btn btn-brand !py-1.5 !text-xs">نشر</button></form>
             </div>

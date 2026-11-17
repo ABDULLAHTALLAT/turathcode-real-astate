@@ -1,6 +1,6 @@
 {{-- صف طلب: $r = RentalRequest, $as = owner|tenant --}}
 <a href="{{ route('requests.show', $r) }}" class="flex items-center gap-4 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
-    <img src="{{ $r->property->cover_url }}" class="w-16 h-16 rounded-xl object-cover bg-slate-100 shrink-0" alt="">
+    <img src="{{ $r->property->cover_thumb }}" class="w-16 h-16 rounded-xl object-cover bg-slate-100 shrink-0" alt="">
     <div class="min-w-0 flex-1">
         <p class="font-bold text-ink truncate">{{ $r->property->title }}</p>
         <p class="text-xs text-slate-500 mt-0.5">{{ $r->code }} · {{ $as === 'owner' ? 'من: '.$r->tenant->name : 'المالك: '.\Illuminate\Support\Str::before($r->owner->name, ' ') }} · {{ egp($r->proposed_rent) }} / شهر · {{ $r->lease_years }} سنة</p>

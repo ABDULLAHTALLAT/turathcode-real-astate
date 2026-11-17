@@ -5,7 +5,7 @@
 <div class="card divide-y divide-slate-100 overflow-hidden">
     @forelse ($properties as $p)
         <div class="p-4 flex flex-col sm:flex-row gap-4 sm:items-center">
-            <img src="{{ $p->cover_url }}" class="w-full sm:w-28 h-24 rounded-xl object-cover shrink-0" alt="">
+            <img src="{{ $p->cover_thumb }}" class="w-full sm:w-28 h-24 rounded-xl object-cover shrink-0" alt="">
             <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center gap-2"><a href="{{ route('properties.show', $p) }}" class="font-bold text-ink hover:text-brand-dark">{{ $p->title }}</a>
                     @include('partials.badge', ['color' => $p->status_color, 'text' => $p->status_label])</div>

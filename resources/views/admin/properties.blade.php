@@ -7,7 +7,7 @@
 <div class="card divide-y divide-slate-100 overflow-hidden">
     @forelse ($properties as $p)
         <div class="p-4 flex flex-col lg:flex-row gap-4 lg:items-center">
-            <img src="{{ $p->cover_url }}" class="w-full lg:w-24 h-20 rounded-xl object-cover" alt="">
+            <img src="{{ $p->cover_thumb }}" class="w-full lg:w-24 h-20 rounded-xl object-cover" alt="">
             <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap gap-2 items-center"><a href="{{ route('properties.show', $p) }}" class="font-bold text-ink hover:text-brand-dark">{{ $p->title }}</a>@include('partials.badge', ['color' => $p->status_color, 'text' => $p->status_label])@if ($p->is_featured)<span class="text-[11px] font-bold bg-brand text-ink px-2 py-0.5 rounded-full">مميز</span>@endif</div>
                 <p class="text-xs text-slate-500 mt-1">المالك: {{ $p->owner->name }} · {{ $p->city }}، {{ $p->governorate }} · {{ egp($p->offered_rent) }} (السوق {{ egp($p->market_rent) }})</p>

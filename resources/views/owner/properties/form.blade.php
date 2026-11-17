@@ -98,13 +98,13 @@
         @if ($editing && $property->images->count())
             <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
                 @foreach ($property->images as $img)
-                    <label class="relative block"><img src="{{ $img->url }}" class="w-full h-24 object-cover rounded-lg" alt="">
+                    <label class="relative block"><img src="{{ $img->thumb_url }}" class="w-full h-24 object-cover rounded-lg" alt="">
                         <span class="absolute bottom-1 start-1 bg-white/90 text-rose-600 text-[10px] font-bold rounded px-1.5 py-0.5 flex items-center gap-1"><input type="checkbox" name="remove_images[]" value="{{ $img->id }}"> حذف</span></label>
                 @endforeach
             </div>
         @endif
         <div><label class="label">{{ $editing ? 'إضافة صور جديدة' : 'صور العقار * (حتى 12 صورة)' }}</label>
-            <input type="file" name="images[]" accept="image/*" multiple class="field" {{ $editing ? '' : 'required' }}>
+            <input type="file" name="images[]" accept="image/jpeg,image/png,image/webp,image/gif" multiple class="field" {{ $editing ? '' : 'required' }}>
             <p class="text-[11px] text-slate-400 mt-1">الصورة الأولى هي الغلاف. الحد الأقصى 5MB للصورة.</p></div>
     </section>
 

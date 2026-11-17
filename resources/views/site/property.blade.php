@@ -35,15 +35,15 @@
 
         {{-- المعرض --}}
         <div class="grid grid-cols-4 gap-2 rounded-2xl overflow-hidden">
-            <button type="button" data-lb-src="{{ $imgs->first()?->url ?? asset('images/placeholder.svg') }}" class="col-span-4 sm:col-span-3 sm:row-span-2 h-72 sm:h-[26rem] bg-slate-100 overflow-hidden">
-                <img src="{{ $imgs->first()?->url ?? asset('images/placeholder.svg') }}" alt="{{ $property->title }}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+            <button type="button" data-lb-src="{{ $imgs->first()?->large_url ?? $property->cover_url }}" class="col-span-4 sm:col-span-3 sm:row-span-2 h-72 sm:h-[26rem] bg-slate-100 overflow-hidden">
+                <img src="{{ $imgs->first()?->url ?? $property->cover_url }}" alt="{{ $property->title }}" fetchpriority="high" class="w-full h-full object-cover hover:scale-105 transition duration-500">
             </button>
             @foreach ($imgs->slice(1, 4) as $img)
-                <button type="button" data-lb-src="{{ $img->url }}" class="hidden sm:block h-[12.8rem] bg-slate-100 overflow-hidden"><img src="{{ $img->url }}" alt="" class="w-full h-full object-cover hover:scale-105 transition duration-500"></button>
+                <button type="button" data-lb-src="{{ $img->large_url }}" class="hidden sm:block h-[12.8rem] bg-slate-100 overflow-hidden"><img src="{{ $img->thumb_url }}" loading="lazy" alt="{{ $property->title }}" class="w-full h-full object-cover hover:scale-105 transition duration-500"></button>
             @endforeach
         </div>
         @if ($imgs->count() > 5) <p class="text-xs text-slate-500 -mt-5">+ {{ $imgs->count() - 5 }} صور إضافية: اضغط على أي صورة للتصفح</p> @endif
-        <div class="hidden" aria-hidden="true">@foreach ($imgs->slice(5) as $img)<span data-lb-src="{{ $img->url }}"></span>@endforeach</div>
+        <div class="hidden" aria-hidden="true">@foreach ($imgs->slice(5) as $img)<span data-lb-src="{{ $img->large_url }}"></span>@endforeach</div>
 
         {{-- المواصفات --}}
         <section class="card p-6">

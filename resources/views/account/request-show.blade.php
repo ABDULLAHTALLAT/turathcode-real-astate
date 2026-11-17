@@ -30,7 +30,7 @@
 
 {{-- العقار --}}
 <a href="{{ route('properties.show', $p) }}" class="card p-4 flex gap-4 items-center hover:border-brand transition">
-    <img src="{{ $p->cover_url }}" class="w-24 h-20 rounded-xl object-cover" alt="">
+    <img src="{{ $p->cover_thumb }}" class="w-24 h-20 rounded-xl object-cover" alt="">
     <div><p class="font-bold text-ink">{{ $p->title }}</p><p class="text-xs text-slate-500 mt-1">{{ $p->public_address }}</p><p class="text-xs text-slate-500">السعر المعروض: {{ egp($p->offered_rent) }} / شهر</p></div>
 </a>
 

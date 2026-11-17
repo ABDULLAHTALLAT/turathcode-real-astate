@@ -6,7 +6,7 @@
 <article class="group card overflow-hidden hover:shadow-xl hover:border-brand/60 transition flex flex-col h-full">
     <div class="relative h-48 bg-slate-100 overflow-hidden">
         <a href="{{ route('properties.show', $property) }}" class="block h-full">
-            <img src="{{ $property->cover_url }}" alt="{{ $property->title }}" loading="lazy" decoding="async" width="640" height="384" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <img src="{{ $property->cover_thumb }}" alt="{{ $property->title }}" loading="lazy" decoding="async" width="640" height="384" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
         </a>
         <span class="absolute top-3 start-3 bg-ink/85 text-brand text-xs font-semibold px-2.5 py-1 rounded-lg">{{ $property->stage_label }}</span>
         @if ($property->is_featured)
