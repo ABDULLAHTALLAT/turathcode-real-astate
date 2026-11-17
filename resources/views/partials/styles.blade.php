@@ -42,4 +42,8 @@
         .rise { animation: rise .5s ease-out both; }
         @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
     }
+    /* ---------- وصولية: حلقة تركيز واضحة لمستخدمي الكيبورد ---------- */
+    :focus-visible { outline: 3px solid #6bbce9; outline-offset: 2px; border-radius: .4rem; }
+    .skip-link { position: absolute; inset-inline-start: 1rem; top: -4rem; z-index: 100; background: #0b2447; color: #fff; padding: .6rem 1rem; border-radius: .75rem; font-weight: 600; transition: top .15s; }
+    .skip-link:focus { top: 1rem; }
 </style>
