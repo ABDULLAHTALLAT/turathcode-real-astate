@@ -4,33 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PropertyImage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['property_id', 'media_id', 'path', 'is_cover', 'sort'];
+    protected $fillable = ['property_id', 'path', 'is_cover', 'sort'];
     protected $casts = ['is_cover' => 'boolean'];
 
-    public function media(): BelongsTo { return $this->belongsTo(Media::class); }
+    protected static function booted(): void
+    {
+        // مسح ملفات الصورة من public/uploads أول ما السجل يتحذف
+        static::deleted(fn (self $img) => app(\App\Services\ImageProcessor::class)->delete($img->path));
+    }
 
-    /** thumb للكروت، medium للصفحات، large للمعرض */
+    /** thumb للكروت، medium للصفحات، large للمعرض — الملفات في public/uploads/properties/{id}/ */
     public function variantUrl(string $variant = 'medium'): string
     {
-        if ($this->media_id) {
-            $uuid = $this->relationLoaded('media') ? $this->media?->uuid : Media::whereKey($this->media_id)->value('uuid');
-            if ($uuid) {
-                return route('media.show', ['media' => $uuid, 'variant' => $variant]);
-            }
-        }
-
-        // صور قديمة / افتراضية
         if (str_starts_with($this->path, 'http')) {
             return $this->path;
         }
 
-        return str_starts_with($this->path, 'images/') ? asset($this->path) : asset('storage/'.$this->path);
+        // صورة افتراضية قديمة (images/covers/x.svg)
+        if (str_starts_with($this->path, 'images/')) {
+            return asset($this->path);
+        }
+
+        return asset($this->path.'-'.$variant.'.webp');
     }
 
     public function getUrlAttribute(): string { return $this->variantUrl('medium'); }

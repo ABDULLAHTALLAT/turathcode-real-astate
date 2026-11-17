@@ -36,6 +36,9 @@ class Property extends Model
         static::creating(function (Property $p) {
             $p->slug = $p->slug ?: static::uniqueSlug($p->title);
         });
+
+        // لما العقار يتحذف نهائيًا نمسح فولدر صوره كله
+        static::forceDeleted(fn (Property $p) => \Illuminate\Support\Facades\File::deleteDirectory(public_path('uploads/properties/'.$p->id)));
     }
 
     public static function uniqueSlug(string $title): string
@@ -52,7 +55,7 @@ class Property extends Model
 
     // ---------- العلاقات ----------
     public function owner(): BelongsTo { return $this->belongsTo(User::class, 'owner_id'); }
-    public function images(): HasMany { return $this->hasMany(PropertyImage::class)->with('media:id,uuid')->orderByDesc('is_cover')->orderBy('sort'); }
+    public function images(): HasMany { return $this->hasMany(PropertyImage::class)->orderByDesc('is_cover')->orderBy('sort'); }
     public function finishingItems(): HasMany { return $this->hasMany(FinishingItem::class); }
     public function requests(): HasMany { return $this->hasMany(RentalRequest::class); }
 

@@ -8,12 +8,10 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Owner;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RentalRequestController;
-use App\Http\Controllers\MediaController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 // ---------------- الموقع العام ----------------
-Route::get('/media/{media:uuid}/{variant}', [MediaController::class, 'show'])->where('variant', 'thumb|medium|large')->name('media.show');
 Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/properties', [SiteController::class, 'index'])->name('properties.index');
 Route::get('/properties/{property:slug}', [SiteController::class, 'show'])->name('properties.show');

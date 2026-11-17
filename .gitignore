@@ -21,3 +21,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# صور المستخدمين المرفوعة (منظمة في public/uploads بدل storage)
+/public/uploads/*
+!/public/uploads/.gitkeep

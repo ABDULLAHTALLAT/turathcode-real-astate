@@ -36,11 +36,13 @@ class ProfileController extends Controller
 
         if ($request->hasFile('avatar')) {
             try {
-                $data['avatar_media_id'] = app(ImageProcessor::class)->storeUpload($request->file('avatar'), $user, $user->name)->id;
+                $processor = app(ImageProcessor::class);
+                $newAvatar = $processor->storeUpload($request->file('avatar'), 'avatars/'.$user->id);
+                $processor->delete($user->avatar);
             } catch (\InvalidArgumentException $e) {
                 return back()->withErrors(['avatar' => $e->getMessage()])->withInput();
             }
-            unset($data['avatar']);
+            $data['avatar'] = $newAvatar;
         } else {
             unset($data['avatar']);
         }

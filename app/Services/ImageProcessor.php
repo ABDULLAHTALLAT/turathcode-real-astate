@@ -2,20 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\Media;
-use App\Models\MediaVariant;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
- * معالجة آمنة للصور:
- *  1) نتحقق من المحتوى الحقيقي (مش الامتداد ولا الـ MIME اللي بعته المستخدم)
- *  2) نفك الصورة بـ GD ونعيد ترميزها WebP => بيمسح أي EXIF/GPS أو كود مخفي (polyglot)
+ * معالجة آمنة للصور وحفظها كملفات منظمة داخل public/uploads (بدون storage وبدون storage:link):
+ *   public/uploads/properties/{رقم العقار}/{ulid}-thumb|medium|large.webp
+ *   public/uploads/avatars/{رقم المستخدم}/{ulid}-thumb|medium|large.webp
+ *  1) نتحقق من المحتوى الحقيقي (مش الامتداد ولا الـ MIME)
+ *  2) نعيد ترميز الصورة WebP => بيمسح أي EXIF/GPS أو كود مخفي
  *  3) 3 مقاسات (thumb/medium/large) بدون تكبير
- *  4) منع التكرار بالبصمة sha256
  */
 class ImageProcessor
 {
@@ -25,16 +23,27 @@ class ImageProcessor
     public const VARIANTS = ['thumb' => 480, 'medium' => 960, 'large' => 1600];
     public const QUALITY = 82;
 
-    public function storeUpload(UploadedFile $file, ?User $owner = null, ?string $alt = null): Media
+    /** يرجّع "أساس المسار" (بدون المقاس والامتداد) مثل uploads/properties/12/01HXYZ */
+    public function storeUpload(UploadedFile $file, string $folder): string
     {
         if (! $file->isValid() || $file->getSize() > self::MAX_BYTES) {
             throw new InvalidArgumentException('حجم الصورة أكبر من 8 ميجا أو الملف تالف.');
         }
 
-        return $this->storeBinary((string) file_get_contents($file->getRealPath()), $owner, $alt);
+        return $this->storeBinary((string) file_get_contents($file->getRealPath()), $folder);
     }
 
-    public function storeBinary(string $binary, ?User $owner = null, ?string $alt = null): Media
+    public function storeBinary(string $binary, string $folder): string
+    {
+        return $this->write($this->process($binary), $folder);
+    }
+
+    /**
+     * يتحقق من الصورة ويرجّع المقاسات الجاهزة [thumb|medium|large => بيانات WebP].
+     *
+     * @return array<string,string>
+     */
+    public function process(string $binary): array
     {
         if ($binary === '' || strlen($binary) > self::MAX_BYTES) {
             throw new InvalidArgumentException('الصورة فاضية أو أكبر من الحد المسموح.');
@@ -54,29 +63,42 @@ class ImageProcessor
         }
         $src = $this->autoOrient($src, $binary, $info[2]);
 
-        $variants = [];
+        $out = [];
         foreach (self::VARIANTS as $name => $maxW) {
-            $variants[$name] = $this->encode($src, $maxW);
+            $out[$name] = $this->encode($src, $maxW)['data'];
         }
         imagedestroy($src);
 
-        $sha = hash('sha256', $variants['large']['data']);
-        if ($existing = Media::where('sha256', $sha)->first()) {
-            return $existing;
+        return $out;
+    }
+
+    /**
+     * يكتب المقاسات في public/uploads/{folder}/ ويرجّع أساس المسار.
+     *
+     * @param array<string,string> $variants
+     */
+    public function write(array $variants, string $folder): string
+    {
+        $folder = 'uploads/'.trim(preg_replace('#[^a-z0-9/_-]#i', '', $folder), '/');
+        File::ensureDirectoryExists(public_path($folder), 0755);
+
+        $base = $folder.'/'.Str::ulid();
+        foreach ($variants as $name => $data) {
+            File::put(public_path($base.'-'.$name.'.webp'), $data);
         }
 
-        return DB::transaction(function () use ($variants, $sha, $owner, $alt) {
-            $media = Media::create([
-                'uuid' => (string) Str::ulid(), 'user_id' => $owner?->id, 'sha256' => $sha, 'mime' => 'image/webp',
-                'width' => $variants['large']['width'], 'height' => $variants['large']['height'],
-                'bytes' => strlen($variants['large']['data']), 'alt' => $alt ? Str::limit(strip_tags($alt), 190, '') : null,
-            ]);
-            foreach ($variants as $name => $v) {
-                MediaVariant::create(['media_id' => $media->id, 'name' => $name, 'width' => $v['width'], 'height' => $v['height'], 'data' => $v['data']]);
-            }
+        return $base;
+    }
 
-            return $media;
-        });
+    /** يمسح كل مقاسات صورة محفوظة (لو المسار مش http ولا صورة افتراضية) */
+    public function delete(?string $base): void
+    {
+        if (! $base || ! str_starts_with($base, 'uploads/') || str_contains($base, '..')) {
+            return;
+        }
+        foreach (array_keys(self::VARIANTS) as $name) {
+            File::delete(public_path($base.'-'.$name.'.webp'));
+        }
     }
 
     /** @return array{data:string,width:int,height:int} */

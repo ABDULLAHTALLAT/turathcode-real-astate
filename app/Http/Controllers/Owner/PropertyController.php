@@ -181,14 +181,13 @@ class PropertyController extends Controller
 
         foreach ((array) $request->file('images', []) as $file) {
             try {
-                $media = app(ImageProcessor::class)->storeUpload($file, $request->user(), $property->title);
+                $base = app(ImageProcessor::class)->storeUpload($file, 'properties/'.$property->id);
             } catch (\InvalidArgumentException $e) {
                 throw ValidationException::withMessages(['images' => $e->getMessage()]);
             }
             PropertyImage::create([
                 'property_id' => $property->id,
-                'media_id' => $media->id,
-                'path' => 'media:'.$media->uuid,
+                'path' => $base,
                 'is_cover' => ! $hasCover,
                 'sort' => ++$sort,
             ]);
