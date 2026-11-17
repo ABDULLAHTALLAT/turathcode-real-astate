@@ -24,7 +24,7 @@
                 </form>
             @endif
             <form method="POST" action="{{ route('compare.toggle', $property->id) }}">@csrf
-                <button class="w-8 h-8 rounded-full flex items-center justify-center shadow hover:scale-105 transition {{ $inCompare ? 'bg-ink text-brand' : 'bg-white/95 text-ink' }}" title="قارن"><i class="bi bi-arrow-left-right"></i></button>
+                <button class="w-8 h-8 rounded-full flex items-center justify-center shadow hover:scale-105 transition {{ $inCompare ? 'bg-ink text-brand' : 'bg-white/95 text-ink' }}" title="قارن" aria-label="{{ $inCompare ? 'إزالة من المقارنة' : 'إضافة للمقارنة' }}" aria-pressed="{{ $inCompare ? 'true' : 'false' }}"><i class="bi bi-arrow-left-right"></i></button>
             </form>
         </div>
     </div>
