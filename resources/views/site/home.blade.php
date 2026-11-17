@@ -117,4 +117,20 @@
         </div>
     </div>
 </section>
+
+<section class="py-14 bg-slate-50 dark:bg-slate-900/40" aria-labelledby="gov-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 id="gov-title" class="text-2xl font-extrabold text-ink section-title">تصفّح حسب المحافظة</h2>
+        <p class="text-slate-500 mt-3 mb-6">عقارات معطلة من كل ربوع مصر، من الإسكندرية لأسوان.</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            @foreach ($govCounts as $gov => $count)
+                <a href="{{ route('properties.index', ['governorate' => $gov]) }}" class="card p-4 hover:border-brand hover:shadow-lg transition text-center">
+                    <i class="bi bi-geo-alt-fill text-brand-dark text-xl"></i>
+                    <p class="font-bold text-ink mt-1">{{ $gov }}</p>
+                    <p class="text-xs text-slate-500">{{ $count }} عقار</p>
+                </a>
+            @endforeach
+        </div>
+    </div>
+</section>
 @endsection
