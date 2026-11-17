@@ -58,18 +58,16 @@ class EgyptPropertiesSeeder extends Seeder
     }
 
     /**
-     * صور العقار: واجهة حسب نوعه + 3 صور داخلية حسب مرحلة التشطيب.
+     * صور العقار: صور حقيقية (واجهة + غرفة نوم + مطبخ + حمام) من مكتبة database/seed-images.
      * بتتخزن في public/uploads/properties/{id}/ بنفس مسار الرفع الحقيقي (من غير storage).
-     * المكتبة في database/seed-images — استبدلها بصور حقيقية متى أحببت.
+     * صور مؤقتة للتجربة — استبدلها بصور العقارات الحقيقية متى أحببت (انظر README).
      */
     private function images(Property $p): void
     {
         $dir = database_path('seed-images');
         $processor = app(ImageProcessor::class);
-        $files = ["facade-{$p->property_type}-".($p->id % 3).'.jpg'];
-        foreach (['living', 'hall', 'bath'] as $room) {
-            $files[] = "interior-{$p->finishing_stage}-{$room}.jpg";
-        }
+        $house = sprintf('house-%02d', ($p->id % 40) + 1);
+        $files = array_map(fn ($k) => "{$house}-{$k}.jpg", ['frontal', 'bedroom', 'kitchen', 'bathroom']);
 
         foreach ($files as $sort => $file) {
             if (! is_file("$dir/$file")) {
