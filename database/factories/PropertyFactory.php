@@ -77,6 +77,17 @@ class PropertyFactory extends Factory
         ];
     }
 
+    /** العنوان والوصف لازم يطابقوا المحافظة والمدينة النهائية حتى لو اتغيرت بـ state */
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Property $p) {
+            $type = catalog('property_types')[$p->property_type];
+            $stage = catalog('finishing_stages')[$p->finishing_stage]['label'];
+            $p->title = "{$type} {$p->area_m2}م {$stage} في {$p->city}";
+            $p->description = "{$type} موجودة ومعطلة بالكامل في {$p->city} - {$p->governorate}، المالك مستعد يأجرها بسعر أقل من السوق مقابل مدة إيجار طويلة واستكمال التشطيب.";
+        });
+    }
+
     public function stage(string $stage): static { return $this->state(['finishing_stage' => $stage]); }
     public function featured(): static { return $this->state(['is_featured' => true]); }
     public function pending(): static { return $this->state(['status' => 'pending', 'approved_at' => null]); }
