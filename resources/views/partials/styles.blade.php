@@ -7,7 +7,7 @@
     .hero-bg { background:
         radial-gradient(1200px 500px at 85% -10%, rgba(107,188,233,.28), transparent 60%),
         linear-gradient(160deg, #0b2447 0%, #102d57 60%, #0b2447 100%); }
-    .field { width: 100%; border-radius: .75rem; border: 1px solid #cbd5e1; background: #fff; padding: .65rem .9rem; font-size: .9rem; transition: .15s; }
+    .field { min-height: 44px; width: 100%; border-radius: .75rem; border: 1px solid #cbd5e1; background: #fff; padding: .65rem .9rem; font-size: .9rem; transition: .15s; }
     .field:focus { outline: none; border-color: #6bbce9; box-shadow: 0 0 0 3px rgba(107,188,233,.25); }
     .label { display: block; font-size: .8rem; font-weight: 600; color: #334155; margin-bottom: .35rem; }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: .75rem; padding: .65rem 1.25rem; font-weight: 600; font-size: .9rem; transition: .15s; cursor: pointer; }
