@@ -52,4 +52,8 @@
     /* حقول فيها خطأ تبان بوضوح (مش بس باللون الأحمر) */
     .field[aria-invalid=true], .field.is-invalid { border-color: #e11d48; background-image: none; box-shadow: 0 0 0 3px rgba(225,29,72,.15); }
     .field-error { color: #be123c; font-size: .75rem; margin-top: .3rem; display: flex; gap: .35rem; align-items: center; }
+    /* كروت العقارات: رفعة خفيفة عند المرور + صورة بتظهر بنعومة */
+    .card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    @media (hover: hover) { article.card:hover { transform: translateY(-3px); } }
+    img[loading=lazy] { background: linear-gradient(110deg, #eef2f6 8%, #f8fafc 18%, #eef2f6 33%); background-size: 200% 100%; }
 </style>
