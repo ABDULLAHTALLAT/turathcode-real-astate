@@ -1,4 +1,7 @@
 <style>
+    html { font-size: 17px; }
+    @media (min-width: 1280px) { html { font-size: 18px; } }
+    @media (min-width: 1700px) { html { font-size: 19px; } }
     body { font-family: 'Alexandria', sans-serif; background: #fff; }
     html { scroll-behavior: smooth; }
     .brand-gradient { background-image: linear-gradient(135deg, #a8d9f3 0%, #6bbce9 50%, #3a9ad0 100%); }
@@ -7,7 +10,7 @@
     .hero-bg { background:
         radial-gradient(1200px 500px at 85% -10%, rgba(107,188,233,.28), transparent 60%),
         linear-gradient(160deg, #0b2447 0%, #102d57 60%, #0b2447 100%); }
-    .field { min-height: 44px; width: 100%; border-radius: .75rem; border: 1px solid #cbd5e1; background: #fff; padding: .65rem .9rem; font-size: .9rem; transition: .15s; }
+    .field { min-height: 48px; width: 100%; border-radius: .75rem; border: 1px solid #cbd5e1; background: #fff; padding: .65rem .9rem; font-size: .9rem; transition: .15s; }
     .field:focus { outline: none; border-color: #6bbce9; box-shadow: 0 0 0 3px rgba(107,188,233,.25); }
     .label { display: block; font-size: .8rem; font-weight: 600; color: #334155; margin-bottom: .35rem; }
     .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: .75rem; padding: .65rem 1.25rem; font-weight: 600; font-size: .9rem; transition: .15s; cursor: pointer; }
@@ -36,6 +39,31 @@
     html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #243049; }
     html.dark .hover\:bg-slate-50:hover { background-color: #162036; }
 
+    /* ---------- الهيرو والأقسام (تصميم Palmenburg) ---------- */
+    .hero-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.8s ease-in-out; transform:scale(1.02); }
+    .hero-slide.is-active { opacity:1; z-index:1; }
+    .hero-dot { position:relative; overflow:hidden; height:4px; width:28px; border-radius:9999px; background:rgba(255,255,255,.35); border:0; padding:0; cursor:pointer; transition:width .4s; }
+    .hero-dot.is-active { width:64px; }
+    .hero-dot.is-active::after { content:''; position:absolute; inset:0; background:#6bbce9; transform-origin:right center; animation:dotfill var(--hero-ms,6500ms) linear forwards; }
+    @keyframes dotfill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+    .hero-vignette { background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.55) 100%); }
+    .eyebrow { font-size:.8rem; font-weight:700; letter-spacing:.22em; color:#1f7fb8; }
+    .bar { display:block; width:64px; height:4px; border-radius:4px; background-image:linear-gradient(90deg,#6bbce9,#a8d9f3); }
+    .snap-row { display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding-bottom:.5rem; }
+    .snap-row::-webkit-scrollbar { display:none; }
+    .snap-row > * { scroll-snap-align:start; flex:0 0 min(86%, 26rem); }
+    details > summary { list-style:none; cursor:pointer; } details > summary::-webkit-details-marker { display:none; }
+    details[open] .faq-sign { transform:rotate(45deg); }
+    @media (prefers-reduced-motion: no-preference) {
+        .hero-slide.is-active { animation:kb-in 9s ease-out forwards; }
+        .hero-slide:nth-child(2n).is-active { animation-name:kb-out; }
+        @keyframes kb-in  { from { transform:scale(1.02); } to { transform:scale(1.16) translate3d(-2%,-1%,0); } }
+        @keyframes kb-out { from { transform:scale(1.16) translate3d(2%,1%,0); } to { transform:scale(1.03); } }
+        .hero-rise { opacity:0; animation:rise 1s cubic-bezier(.2,.7,.2,1) forwards; animation-delay:var(--d,0s); }
+        .reveal { opacity:0; transform:translate3d(0,32px,0); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); transition-delay:var(--d,0s); }
+        .reveal.is-visible { opacity:1; transform:none; }
+    }
+    html.dark .eyebrow { color:#6bbce9; }
     @media (prefers-reduced-motion: no-preference) {
         .dock-pop { animation: dockpop .45s cubic-bezier(.2,1.4,.4,1) both; }
         @keyframes dockpop { from { opacity:0; transform:scale(.3) translateY(14px); } to { opacity:1; transform:none; } }

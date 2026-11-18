@@ -12,14 +12,14 @@
 @endphp
 
 <div class="bg-slate-50 border-b border-slate-100 dark:bg-slate-900/40 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-xs text-slate-500 flex items-center gap-2 flex-wrap">
-        <a href="{{ route('home') }}" class="hover:text-brand-dark">الرئيسية</a> <i class="bi bi-chevron-left text-[9px]"></i>
-        <a href="{{ route('properties.index') }}" class="hover:text-brand-dark">العقارات</a> <i class="bi bi-chevron-left text-[9px]"></i>
+    <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-xs text-slate-500 flex items-center gap-2 flex-wrap">
+        <a href="{{ route('home') }}" class="hover:text-brand-dark">الرئيسية</a> 
+        <a href="{{ route('properties.index') }}" class="hover:text-brand-dark">العقارات</a> 
         <span class="text-slate-700 dark:text-slate-300 truncate">{{ $property->title }}</span>
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-3 gap-8">
+<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-3 gap-8">
     <div class="lg:col-span-2 space-y-8">
 
         {{-- العنوان --}}
@@ -30,7 +30,7 @@
                 @if ($property->status !== 'approved')<span class="text-xs font-bold bg-{{ $property->status_color }}-100 text-{{ $property->status_color }}-700 px-3 py-1 rounded-full">{{ $property->status_label }}</span>@endif
             </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-ink leading-snug">{{ $property->title }}</h1>
-            <p class="text-slate-500 mt-2 flex items-center gap-1.5"><i class="bi bi-geo-alt-fill text-brand-dark"></i> {{ $property->public_address }}</p>
+            <p class="text-slate-500 mt-2 flex items-center gap-1.5">{{ $property->public_address }}</p>
         </div>
 
         {{-- المعرض --}}
@@ -63,7 +63,7 @@
             <div class="mt-6 grid sm:grid-cols-2 gap-5">
                 @if ($property->utilities)
                     <div><p class="text-xs font-bold text-slate-500 mb-2">المرافق المتوفرة</p>
-                        <div class="flex flex-wrap gap-2">@foreach ($property->utilities as $k)<span class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full dark:bg-emerald-950/40 dark:text-emerald-300"><i class="bi bi-check2"></i> {{ catalog('utilities')[$k] ?? $k }}</span>@endforeach</div></div>
+                        <div class="flex flex-wrap gap-2">@foreach ($property->utilities as $k)<span class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full dark:bg-emerald-950/40 dark:text-emerald-300">{{ catalog('utilities')[$k] ?? $k }}</span>@endforeach</div></div>
                 @endif
                 @if ($property->allowed_purposes)
                     <div><p class="text-xs font-bold text-slate-500 mb-2">الأغراض المسموحة</p>
@@ -91,8 +91,8 @@
         {{-- الموقع --}}
         <section class="card p-6">
             <h2 class="font-extrabold text-ink mb-4 section-title">الموقع</h2>
-            <p class="text-sm text-slate-600"><i class="bi bi-geo-alt-fill text-brand-dark"></i> {{ $property->public_address }}</p>
-            <p class="text-xs text-slate-500 mt-3 bg-brand-50 dark:bg-slate-800/50 rounded-lg px-3 py-2"><i class="bi bi-shield-lock-fill text-brand-dark"></i> رقم العقار والدور والشقة والعلامة المميزة بتظهر بعد إتمام الاتفاق وسداد نسبة المنصة.</p>
+            <p class="text-sm text-slate-600">{{ $property->public_address }}</p>
+            <p class="text-xs text-slate-500 mt-3 bg-brand-50 dark:bg-slate-800/50 rounded-lg px-3 py-2">رقم العقار والدور والشقة والعلامة المميزة بتظهر بعد إتمام الاتفاق وسداد نسبة المنصة.</p>
         </section>
 
         @if ($similar->count())
@@ -109,14 +109,14 @@
             @endif
             <p class="text-3xl font-extrabold text-ink mt-1">{{ egp($property->offered_rent) }}<span class="text-sm font-medium text-slate-500"> / شهر</span></p>
             @if ($property->discount_percent)
-                <p class="mt-2 text-sm text-emerald-600 font-semibold"><i class="bi bi-piggy-bank"></i> وفّر {{ $property->discount_percent }}% — يعني {{ egp($property->savingsFor($property->max_lease_years)) }} على {{ $property->max_lease_years }} سنين</p>
+                <p class="mt-2 text-sm text-emerald-600 font-semibold">وفّر {{ $property->discount_percent }}% — يعني {{ egp($property->savingsFor($property->max_lease_years)) }} على {{ $property->max_lease_years }} سنين</p>
             @endif
             <p class="text-xs text-slate-500 mt-2">مدة العقد من {{ $property->min_lease_years }} إلى {{ $property->max_lease_years }} سنة</p>
 
             <hr class="my-5 border-slate-100 dark:border-slate-700">
 
             @if ($property->status === 'rented')
-                <div class="text-center py-4"><i class="bi bi-lock-fill text-3xl text-slate-400"></i><p class="font-bold text-ink mt-2">العقار ده اتأجر</p><a href="{{ route('properties.index') }}" class="btn btn-ghost mt-3">شوف عقارات تانية</a></div>
+                <div class="text-center py-4"><p class="font-bold text-ink mt-2">العقار ده اتأجر</p><a href="{{ route('properties.index') }}" class="btn btn-ghost mt-3">شوف عقارات تانية</a></div>
             @elseif ($property->status !== 'approved')
                 <p class="text-sm text-slate-500 text-center">العقار غير منشور حالياً ({{ $property->status_label }}).</p>
             @elseif (! $u)
@@ -152,7 +152,7 @@
                     <p data-calc-out class="text-xs bg-brand-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 rounded-lg px-3 py-2 leading-6"></p>
                     <label class="flex gap-2 items-start text-xs text-slate-600 leading-6"><input type="checkbox" name="terms" value="1" class="mt-1 accent-sky-500" required>
                         <span>أوافق على <a href="{{ route('terms') }}" target="_blank" class="text-brand-dark font-bold underline">شروط المنصة</a>، وإن نسبة المنصة {{ rtrim(rtrim(number_format($tenantRate, 2), '0'), '.') }}% من قيمة العقد، وإن التواصل بيتم داخل المنصة لحد إتمام الاتفاق.</span></label>
-                    <button class="btn btn-brand w-full"><i class="bi bi-send"></i> أرسل الطلب</button>
+                    <button class="btn btn-brand w-full">أرسل الطلب</button>
                 </form>
             @endif
         </div>
@@ -164,13 +164,13 @@
                 <div><p class="font-bold text-ink">{{ \Illuminate\Support\Str::of($property->owner->name)->explode(' ')->first() }} {{ mb_substr(\Illuminate\Support\Str::of($property->owner->name)->explode(' ')->get(1, ''), 0, 1) }}.</p>
                 <p class="text-xs text-slate-500">عضو من {{ $property->owner->created_at->translatedFormat('F Y') }}</p></div>
             </div>
-            <p class="text-xs text-slate-500 mt-4 leading-6"><i class="bi bi-shield-check text-emerald-500"></i> بيانات التواصل المباشرة بتتفتح للطرفين بعد الاتفاق وسداد نسبة المنصة، وده بيحمي حقك وحق المالك.</p>
+            <p class="text-xs text-slate-500 mt-4 leading-6">بيانات التواصل المباشرة بتتفتح للطرفين بعد الاتفاق وسداد نسبة المنصة، وده بيحمي حقك وحق المالك.</p>
         </div>
 
         <div class="flex gap-2">
-            <form method="POST" action="{{ route('compare.toggle', $property->id) }}" class="flex-1">@csrf<button class="btn btn-ghost w-full"><i class="bi bi-arrow-left-right"></i> قارن</button></form>
+            <form method="POST" action="{{ route('compare.toggle', $property->id) }}" class="flex-1">@csrf<button class="btn btn-ghost w-full">قارن</button></form>
             @if ($u?->isTenant())
-                <form method="POST" action="{{ route('favorites.toggle', $property->id) }}" class="flex-1">@csrf<button class="btn btn-ghost w-full {{ $isFav ? '!text-rose-500' : '' }}"><i class="bi {{ $isFav ? 'bi-heart-fill' : 'bi-heart' }}"></i> {{ $isFav ? 'في المفضلة' : 'احفظ' }}</button></form>
+                <form method="POST" action="{{ route('favorites.toggle', $property->id) }}" class="flex-1">@csrf<button class="btn btn-ghost w-full {{ $isFav ? '!text-rose-500' : '' }}">{{ $isFav ? 'في المفضلة' : 'احفظ' }}</button></form>
             @endif
         </div>
     </aside>
@@ -178,10 +178,10 @@
 
 {{-- Lightbox --}}
 <div data-lightbox class="hidden fixed inset-0 z-[120] bg-ink/90 items-center justify-center px-4">
-    <button type="button" data-lb-close class="absolute top-5 end-5 text-white/80 hover:text-white text-3xl"><i class="bi bi-x-lg"></i></button>
-    <button type="button" data-lb-prev dir="ltr" class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white"><i class="bi bi-chevron-left"></i></button>
+    <button type="button" data-lb-close class="absolute top-5 end-5 text-white/80 hover:text-white text-base px-4 h-10 rounded-full bg-white/10">إغلاق</button>
+    <button type="button" data-lb-prev dir="ltr" class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-auto px-4 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white">السابق</button>
     <img src="" alt="" class="max-h-[85vh] max-w-[90vw] object-contain rounded-lg">
-    <button type="button" data-lb-next dir="ltr" class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white"><i class="bi bi-chevron-right"></i></button>
+    <button type="button" data-lb-next dir="ltr" class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-auto px-4 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white">التالي</button>
     <span data-lb-count class="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/80 text-sm"></span>
 </div>
 @endsection

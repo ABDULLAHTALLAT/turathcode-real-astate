@@ -18,8 +18,8 @@
                 @if ($p->status === 'pending' || $p->status === 'approved')
                     <form method="POST" action="{{ route('admin.properties.reject', $p) }}" class="flex gap-1">@csrf<input name="reason" required placeholder="سبب الرفض" class="field !py-1.5 !text-xs !w-32"><button class="btn btn-ghost !py-1.5 !text-xs !text-rose-600">رفض</button></form>
                 @endif
-                <form method="POST" action="{{ route('admin.properties.feature', $p) }}">@csrf<button class="btn btn-ghost !py-1.5 !text-xs" title="تمييز"><i class="bi bi-star{{ $p->is_featured ? '-fill text-amber-500' : '' }}"></i></button></form>
-                <form method="POST" action="{{ route('admin.properties.destroy', $p) }}" onsubmit="return confirm('حذف العقار؟')">@csrf @method('DELETE')<button class="btn btn-ghost !py-1.5 !text-xs !text-rose-600"><i class="bi bi-trash"></i></button></form>
+                <form method="POST" action="{{ route('admin.properties.feature', $p) }}">@csrf<button class="btn btn-ghost !py-1.5 !text-xs" title="تمييز">{{ $p->is_featured ? 'إلغاء التمييز' : 'تمييز' }}</button></form>
+                <form method="POST" action="{{ route('admin.properties.destroy', $p) }}" onsubmit="return confirm('حذف العقار؟')">@csrf @method('DELETE')<button class="btn btn-ghost !py-1.5 !text-xs !text-rose-600">حذف</button></form>
             </div>
         </div>
     @empty <div class="p-12 text-center text-sm text-slate-500">لا توجد عقارات.</div> @endforelse

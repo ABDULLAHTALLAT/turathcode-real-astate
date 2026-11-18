@@ -28,7 +28,7 @@
 @endphp
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-4 gap-8">
+<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-4 gap-8">
     <aside class="lg:col-span-1">
         <div class="card p-5 lg:sticky lg:top-20">
             <div class="flex items-center gap-3 pb-4 border-b border-slate-100 dark:border-slate-700">
@@ -38,11 +38,11 @@
             <nav class="mt-3 flex lg:flex-col gap-1 overflow-x-auto text-sm">
                 @foreach ($nav as [$route, $label, $icon, $pattern])
                     <a href="{{ route($route) }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl whitespace-nowrap transition {{ request()->routeIs($pattern) ? 'bg-ink text-white font-semibold dark:bg-brand dark:text-ink' : 'text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800' }}">
-                        <i class="bi {{ $icon }}"></i> {{ $label }}
+                        {{ $label }}
                     </a>
                 @endforeach
                 <form method="POST" action="{{ route('logout') }}" class="lg:mt-2 lg:pt-2 lg:border-t border-slate-100 dark:border-slate-700">@csrf
-                    <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 whitespace-nowrap"><i class="bi bi-box-arrow-left"></i> خروج</button>
+                    <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 whitespace-nowrap">خروج</button>
                 </form>
             </nav>
         </div>

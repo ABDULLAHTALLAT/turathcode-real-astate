@@ -14,7 +14,6 @@
     <meta property="og:description" content="@yield('description', 'اعرض أو استأجر المباني والشقق المعطلة في مصر بإيجار مخفض لمدة طويلة.')">
     <meta property="og:image" content="@yield('og_image', asset('images/logo.png'))">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script>
         (function () { try { if (localStorage.getItem('bf-theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {} })();
     </script>

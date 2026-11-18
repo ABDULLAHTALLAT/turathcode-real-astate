@@ -40,6 +40,6 @@
             <div><label class="label">تأكيدها</label><input type="password" name="password_confirmation" class="field" autocomplete="new-password"></div>
         </div>
     </section>
-    <button class="btn btn-brand"><i class="bi bi-check2-circle"></i> حفظ</button>
+    <button class="btn btn-brand">حفظ</button>
 </form>
 @endsection

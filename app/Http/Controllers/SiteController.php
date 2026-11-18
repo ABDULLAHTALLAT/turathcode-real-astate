@@ -12,9 +12,40 @@ class SiteController extends Controller
 {
     public function home()
     {
-        $with = ['images', 'owner:id,name'];
+        $with = ['images', 'owner:id,name', 'finishingItems'];
+        $published = fn () => Property::published()->whereHas('images');
+
+        // صور الهيرو: واجهات عقارات حقيقية بجودة مناسبة للعرض الكبير
+        $hero = [];
+        foreach ($published()->with('images')->latest()->take(40)->get() as $p) {
+            $img = $p->images->first();
+            $file = $img ? public_path($img->path.'-large.webp') : null;
+            if ($file && is_file($file) && (@getimagesize($file)[0] ?? 0) >= 1000) {
+                $hero[] = ['url' => $img->large_url, 'caption' => $p->city.'، '.$p->governorate, 'slug' => $p->slug];
+            }
+            if (count($hero) === 4) {
+                break;
+            }
+        }
+
+        $govCounts = Property::published()->selectRaw('governorate, count(*) c')->groupBy('governorate')->orderByDesc('c')->limit(12)->pluck('c', 'governorate');
+        $stageCounts = Property::published()->selectRaw('finishing_stage, count(*) c')->groupBy('finishing_stage')->pluck('c', 'finishing_stage');
+
+        // صورة لكل محافظة / مرحلة تشطيب (من عقار فعلي)
+        $govImages = [];
+        foreach ($govCounts->keys()->take(5) as $gov) {
+            $govImages[$gov] = optional($published()->with('images')->where('governorate', $gov)->latest()->first())->coverUrl('medium');
+        }
+        $stageImages = [];
+        foreach (array_keys(catalog('finishing_stages')) as $stage) {
+            $stageImages[$stage] = optional($published()->with('images')->where('finishing_stage', $stage)->latest()->first())->coverUrl('medium');
+        }
+
+        $anyImage = collect($govImages)->filter()->first();
+        $stageImages = array_map(fn ($u) => $u ?: $anyImage, $stageImages);
 
         return view('site.home', [
+            'hero' => $hero,
             'featured' => Property::published()->with($with)->where('is_featured', true)->latest()->take(6)->get(),
             'latest' => Property::published()->with($with)->latest()->take(8)->get(),
             'stats' => [
@@ -22,11 +53,16 @@ class SiteController extends Controller
                 'rented' => Property::where('status', 'rented')->count(),
                 'owners' => User::where('role', 'owner')->count(),
                 'tenants' => User::where('role', 'tenant')->count(),
+                'governorates' => Property::published()->distinct('governorate')->count('governorate'),
             ],
-            // الأقسام: الدخول من الهوم بيدج عن طريق نوع العقار / مرحلة التشطيب
-            'govCounts' => Property::published()->selectRaw('governorate, count(*) c')->groupBy('governorate')->orderByDesc('c')->limit(12)->pluck('c', 'governorate'),
+            'govCounts' => $govCounts,
+            'govImages' => $govImages,
             'typeCounts' => Property::published()->selectRaw('property_type, count(*) c')->groupBy('property_type')->pluck('c', 'property_type'),
-            'stageCounts' => Property::published()->selectRaw('finishing_stage, count(*) c')->groupBy('finishing_stage')->pluck('c', 'finishing_stage'),
+            'stageCounts' => $stageCounts,
+            'stageImages' => $stageImages,
+            'aboutImages' => $published()->with('images')->latest('id')->skip(3)->take(2)->get()->map->coverUrl('large')->all(),
+            'ownerRate' => (float) (Setting::get('commission_owner_percent', config('site.commission_owner_percent'))),
+            'tenantRate' => (float) (Setting::get('commission_tenant_percent', config('site.commission_tenant_percent'))),
         ]);
     }
 

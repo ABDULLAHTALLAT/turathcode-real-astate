@@ -3,11 +3,11 @@
 @section('panel')
 <div class="flex flex-wrap items-center justify-between gap-3">
     <div><h1 class="text-xl font-extrabold text-ink">أهلاً {{ \Illuminate\Support\Str::before($user->name, ' ') }} 👋</h1><p class="text-sm text-slate-500">لوحة تحكم المالك</p></div>
-    <a href="{{ route('owner.properties.create') }}" class="btn btn-brand"><i class="bi bi-plus-lg"></i> أضف عقار</a>
+    <a href="{{ route('owner.properties.create') }}" class="btn btn-brand">أضف عقار</a>
 </div>
 
 @if ($needReply)
-    <div class="rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 p-4 text-sm flex items-center gap-3 dark:bg-amber-950/30 dark:border-amber-900 dark:text-amber-200"><i class="bi bi-bell-fill"></i> عندك {{ $needReply }} طلب مطلوب ردك. <a href="{{ route('requests.index') }}" class="font-bold underline">راجعها دلوقتي</a></div>
+    <div class="rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 p-4 text-sm flex items-center gap-3 dark:bg-amber-950/30 dark:border-amber-900 dark:text-amber-200">عندك {{ $needReply }} طلب مطلوب ردك. <a href="{{ route('requests.index') }}" class="font-bold underline">راجعها دلوقتي</a></div>
 @endif
 
 <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">

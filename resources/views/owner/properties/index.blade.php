@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('title', 'عقاراتي')
 @section('panel')
-<div class="flex items-center justify-between"><h1 class="text-xl font-extrabold text-ink">عقاراتي</h1><a href="{{ route('owner.properties.create') }}" class="btn btn-brand"><i class="bi bi-plus-lg"></i> أضف عقار</a></div>
+<div class="flex items-center justify-between"><h1 class="text-xl font-extrabold text-ink">عقاراتي</h1><a href="{{ route('owner.properties.create') }}" class="btn btn-brand">أضف عقار</a></div>
 <div class="card divide-y divide-slate-100 overflow-hidden">
     @forelse ($properties as $p)
         <div class="p-4 flex flex-col sm:flex-row gap-4 sm:items-center">
@@ -17,8 +17,8 @@
                 @if (in_array($p->status, ['approved', 'hidden']))
                     <form method="POST" action="{{ route('owner.properties.toggle', $p) }}">@csrf<button class="btn btn-ghost !py-1.5 !text-xs">{{ $p->status === 'approved' ? 'إخفاء' : 'إظهار' }}</button></form>
                 @endif
-                @if ($p->status !== 'rented')<a href="{{ route('owner.properties.edit', $p) }}" class="btn btn-ghost !py-1.5 !text-xs"><i class="bi bi-pencil"></i> تعديل</a>@endif
-                <form method="POST" action="{{ route('owner.properties.destroy', $p) }}" onsubmit="return confirm('حذف العقار نهائياً؟')">@csrf @method('DELETE')<button class="btn btn-ghost !py-1.5 !text-xs !text-rose-600"><i class="bi bi-trash"></i></button></form>
+                @if ($p->status !== 'rented')<a href="{{ route('owner.properties.edit', $p) }}" class="btn btn-ghost !py-1.5 !text-xs">تعديل</a>@endif
+                <form method="POST" action="{{ route('owner.properties.destroy', $p) }}" onsubmit="return confirm('حذف العقار نهائياً؟')">@csrf @method('DELETE')<button class="btn btn-ghost !py-1.5 !text-xs !text-rose-600">حذف</button></form>
             </div>
         </div>
     @empty

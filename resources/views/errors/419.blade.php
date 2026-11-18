@@ -2,7 +2,7 @@
 @section('title', 'الجلسة انتهت')
 @section('content')
 <section class="max-w-xl mx-auto px-4 py-24 text-center">
-    <i class="bi bi-hourglass-bottom text-6xl text-brand-dark"></i>
+    
     <p class="text-6xl font-extrabold text-ink mt-4">419</p>
     <h1 class="text-xl font-bold text-ink mt-2">الجلسة انتهت</h1>
     <p class="text-slate-500 mt-2">ارجع للصفحة السابقة وحدّثها وجرّب تاني.</p>

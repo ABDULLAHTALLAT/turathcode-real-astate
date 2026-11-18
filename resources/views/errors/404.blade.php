@@ -2,7 +2,7 @@
 @section('title', 'الصفحة مش موجودة')
 @section('content')
 <section class="max-w-xl mx-auto px-4 py-24 text-center">
-    <i class="bi bi-house-slash text-6xl text-brand-dark"></i>
+    
     <p class="text-6xl font-extrabold text-ink mt-4">404</p>
     <h1 class="text-xl font-bold text-ink mt-2">الصفحة مش موجودة</h1>
     <p class="text-slate-500 mt-2">يمكن العقار اتأجر أو الرابط اتغيّر.</p>

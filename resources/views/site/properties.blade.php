@@ -2,14 +2,14 @@
 @section('title', 'العقارات المعروضة')
 
 @section('content')
-<section class="bg-ink text-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<section class="bg-ink text-white"><div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <h1 class="text-3xl font-extrabold">العقارات المعروضة</h1>
     <p class="text-white/70 mt-2">{{ $properties->total() }} عقار متاح للإيجار طويل المدة</p>
 </div></section>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-4 gap-8">
+<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-4 gap-8">
     <form method="GET" class="lg:col-span-1 card p-5 h-fit lg:sticky lg:top-20 space-y-4" aria-label="فلترة العقارات">
-        <h2 class="font-bold text-ink flex items-center gap-2"><i class="bi bi-funnel"></i> فلترة النتائج</h2>
+        <h2 class="font-bold text-ink flex items-center gap-2">فلترة النتائج</h2>
         <div><label class="label">بحث</label><input name="q" value="{{ $filters['q'] ?? '' }}" class="field" placeholder="منطقة أو اسم"></div>
         <div><label class="label">المحافظة</label>
             <select name="governorate" class="field"><option value="">الكل</option>@foreach (catalog('governorates') as $g)<option @selected(($filters['governorate'] ?? '') === $g)>{{ $g }}</option>@endforeach</select></div>
@@ -43,7 +43,7 @@
             <div class="flex flex-wrap items-center gap-2 mb-5" aria-label="الفلاتر المفعّلة">
                 @foreach ($active as $k => $v)
                     <a href="{{ route('properties.index', collect($filters)->except($k)->all()) }}" class="inline-flex items-center gap-1.5 text-xs font-semibold bg-brand-50 text-brand-dark border border-brand/30 rounded-full ps-3 pe-2 py-1.5 hover:bg-brand-100" title="إزالة الفلتر">
-                        {{ $labels[$k] }}: {{ catalog('property_types')[$v] ?? catalog('purposes')[$v] ?? (catalog('finishing_stages')[$v]['label'] ?? $v) }} <i class="bi bi-x-circle-fill"></i>
+                        {{ $labels[$k] }}: {{ catalog('property_types')[$v] ?? catalog('purposes')[$v] ?? (catalog('finishing_stages')[$v]['label'] ?? $v) }} 
                     </a>
                 @endforeach
                 <a href="{{ route('properties.index') }}" class="text-xs text-slate-500 underline">مسح الكل</a>
@@ -57,7 +57,7 @@
             <div class="mt-3">{{ $properties->links() }}</div>
         @else
             <div class="card p-12 text-center">
-                <i class="bi bi-house-slash text-5xl text-slate-300"></i>
+                
                 <p class="font-bold text-ink mt-4">مفيش عقارات بالمواصفات دي حالياً</p>
                 <p class="text-sm text-slate-500 mt-1">جرّب تغيّر الفلاتر أو ارجع تاني قريب.</p>
                 <a href="{{ route('properties.index') }}" class="btn btn-brand mt-5">اعرض كل العقارات</a>

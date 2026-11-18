@@ -49,7 +49,7 @@
 
         @if ($rr->canRespond($me) && $p->status === 'approved')
             <div class="mt-6 space-y-3">
-                <form method="POST" action="{{ route('requests.accept', $rr) }}">@csrf<button class="btn btn-brand w-full" onclick="return confirm('موافقة نهائية على الإيجار {{ egp($rr->proposed_rent) }} لمدة {{ $rr->lease_years }} سنة؟')"><i class="bi bi-check2-circle"></i> أوافق على العرض</button></form>
+                <form method="POST" action="{{ route('requests.accept', $rr) }}">@csrf<button class="btn btn-brand w-full" onclick="return confirm('موافقة نهائية على الإيجار {{ egp($rr->proposed_rent) }} لمدة {{ $rr->lease_years }} سنة؟')">أوافق على العرض</button></form>
                 <details class="rounded-xl border border-slate-200 dark:border-slate-700 p-3">
                     <summary class="cursor-pointer text-sm font-semibold text-ink">عرض مضاد (تعديل السعر / المدة)</summary>
                     <form method="POST" action="{{ route('requests.counter', $rr) }}" class="mt-3 grid grid-cols-2 gap-3">@csrf
@@ -87,14 +87,14 @@
 
         @if ($released)
             <div class="mt-4 rounded-xl bg-emerald-50 border border-emerald-200 p-4 text-sm dark:bg-emerald-950/30 dark:border-emerald-900">
-                <p class="font-bold text-emerald-700 mb-2"><i class="bi bi-unlock-fill"></i> بيانات التواصل</p>
+                <p class="font-bold text-emerald-700 mb-2">بيانات التواصل</p>
                 @php($other = $isOwner ? $rr->tenant : $rr->owner)
-                <p dir="ltr" class="text-end"><i class="bi bi-telephone"></i> <a href="tel:{{ $other->phone }}" class="font-bold">{{ $other->phone }}</a></p>
-                <p dir="ltr" class="text-end"><i class="bi bi-envelope"></i> {{ $other->email }}</p>
+                <p dir="ltr" class="text-end"><a href="tel:{{ $other->phone }}" class="font-bold">{{ $other->phone }}</a></p>
+                <p dir="ltr" class="text-end">{{ $other->email }}</p>
                 @if ($isTenant || $me->isAdmin())<p class="mt-2 text-slate-600"><b>العنوان الكامل:</b> {{ $p->full_address }}</p>@endif
             </div>
         @else
-            <p class="mt-4 text-xs text-slate-500 bg-brand-50 dark:bg-slate-800/50 rounded-lg px-3 py-2 leading-6"><i class="bi bi-shield-lock-fill text-brand-dark"></i> رقم الموبايل والإيميل {{ $isTenant ? 'والعنوان الكامل' : '' }} بيظهروا بعد الاتفاق وسداد نسبة المنصة من الطرفين.</p>
+            <p class="mt-4 text-xs text-slate-500 bg-brand-50 dark:bg-slate-800/50 rounded-lg px-3 py-2 leading-6">رقم الموبايل والإيميل {{ $isTenant ? 'والعنوان الكامل' : '' }} بيظهروا بعد الاتفاق وسداد نسبة المنصة من الطرفين.</p>
         @endif
     </section>
 </div>
@@ -102,7 +102,7 @@
 {{-- نسبة المنصة --}}
 @if (in_array($rr->status, ['accepted', 'completed']))
 <section class="card p-6 border-brand/50">
-    <h2 class="font-bold text-ink mb-1"><i class="bi bi-cash-coin text-brand-dark"></i> نسبة المنصة</h2>
+    <h2 class="font-bold text-ink mb-1">نسبة المنصة</h2>
     <p class="text-xs text-slate-500 mb-5">محسوبة من إجمالي قيمة العقد {{ egp($rr->total_value) }}.</p>
     <div class="grid sm:grid-cols-2 gap-4">
         @foreach (['owner' => 'المالك', 'tenant' => 'المستأجر'] as $party => $lbl)

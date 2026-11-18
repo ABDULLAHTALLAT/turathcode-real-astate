@@ -72,4 +72,55 @@
         };
         rent.addEventListener('input', upd); years.addEventListener('input', upd); upd();
     }
+
+    // سلايدر الهيرو
+    var slides = $$('.hero-slide'), dots = $$('.hero-dot'), cap = $('#heroCaption'), idxEl = $('#heroIndex');
+    if (slides.length) {
+        var cur = 0, ms = 6500, timer;
+        var go = function (n) {
+            slides[cur].classList.remove('is-active'); dots[cur] && dots[cur].classList.remove('is-active');
+            cur = (n + slides.length) % slides.length;
+            slides[cur].classList.add('is-active');
+            if (dots[cur]) { void dots[cur].offsetWidth; dots[cur].classList.add('is-active'); }
+            if (cap) cap.textContent = slides[cur].getAttribute('data-caption') || '';
+            if (idxEl) idxEl.textContent = ('0' + (cur + 1)).slice(-2);
+        };
+        var start = function () { clearInterval(timer); if (slides.length > 1) timer = setInterval(function () { go(cur + 1); }, ms); };
+        dots.forEach(function (d, i) { d.addEventListener('click', function () { go(i); start(); }); });
+        start();
+    }
+
+    // ظهور الأقسام عند النزول + عدّاد الأرقام
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var countUp = function (el) {
+        var to = parseInt(el.getAttribute('data-count'), 10) || 0, t0 = null;
+        if (reduce) { el.textContent = to.toLocaleString('en-US'); return; }
+        var step = function (t) { t0 = t0 || t; var p = Math.min((t - t0) / 1400, 1); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))).toLocaleString('en-US'); if (p < 1) requestAnimationFrame(step); };
+        requestAnimationFrame(step);
+    };
+    if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                e.target.classList.add('is-visible');
+                $$('[data-count]', e.target).forEach(countUp);
+                if (e.target.hasAttribute('data-count')) countUp(e.target);
+                io.unobserve(e.target);
+            });
+        }, { threshold: .12 });
+        $$('.reveal, [data-count]').forEach(function (el) { io.observe(el); });
+    } else {
+        $$('.reveal').forEach(function (el) { el.classList.add('is-visible'); });
+        $$('[data-count]').forEach(countUp);
+    }
+
+    // أسهم الصفوف الأفقية
+    $$('[data-snap-prev],[data-snap-next]').forEach(function (b) {
+        b.addEventListener('click', function () {
+            var row = document.getElementById(b.getAttribute('data-snap-prev') || b.getAttribute('data-snap-next'));
+            if (!row) return;
+            var dir = b.hasAttribute('data-snap-next') ? 1 : -1, rtl = getComputedStyle(row).direction === 'rtl';
+            row.scrollBy({ left: dir * (rtl ? -1 : 1) * row.clientWidth * .8, behavior: 'smooth' });
+        });
+    });
 })();

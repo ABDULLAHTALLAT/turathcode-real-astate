@@ -9,7 +9,7 @@
         ['إتمام الاتفاق وحقوق المنصة', 'bi-shield-check', ['بعد الاتفاق على السعر والمدة، المنصة بتحسب إجمالي العقد ونسبتها من الطرفين.', 'بعد سداد النسبة من المالك والمستأجر بتتفتح بيانات التواصل والعنوان الكامل ويتحول العقار لـ «تم التأجير».', 'لحد ذلك، أرقام التليفون والإيميلات بتتحجب من الرسائل والوصف عشان التواصل يفضل جوه المنصة.']],
     ] as [$t, $ic, $steps])
         <section class="card p-7">
-            <h2 class="text-xl font-extrabold text-ink flex items-center gap-3"><span class="w-11 h-11 rounded-xl brand-gradient text-ink flex items-center justify-center"><i class="bi {{ $ic }}"></i></span> {{ $t }}</h2>
+            <h2 class="text-xl font-extrabold text-ink flex items-center gap-3"><span class="w-11 h-11 rounded-xl brand-gradient text-ink flex items-center justify-center"></span> {{ $t }}</h2>
             <ol class="mt-5 space-y-3 text-sm text-slate-600 leading-7">
                 @foreach ($steps as $i => $s)<li class="flex gap-3"><span class="shrink-0 w-6 h-6 rounded-full bg-brand-50 text-brand-dark text-xs font-bold flex items-center justify-center">{{ $i + 1 }}</span>{{ $s }}</li>@endforeach
             </ol>

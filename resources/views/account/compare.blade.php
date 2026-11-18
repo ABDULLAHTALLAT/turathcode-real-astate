@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('title', 'مقارنة العقارات')
 @section('content')
-<section class="bg-ink text-white"><div class="max-w-7xl mx-auto px-4 py-10 flex items-center justify-between"><h1 class="text-3xl font-extrabold">مقارنة العقارات</h1>
+<section class="bg-ink text-white"><div class="max-w-screen-2xl mx-auto px-4 py-10 flex items-center justify-between"><h1 class="text-3xl font-extrabold">مقارنة العقارات</h1>
     @if ($properties->count())<form method="POST" action="{{ route('compare.clear') }}">@csrf<button class="btn btn-ghost !bg-transparent !text-white !border-white/30">مسح المقارنة</button></form>@endif</div></section>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 @if ($properties->isEmpty())
-    <div class="card p-12 text-center text-sm text-slate-500"><i class="bi bi-arrow-left-right text-4xl text-slate-300"></i><p class="mt-3">اضغط على أيقونة المقارنة في أي عقار عشان تضيفه هنا (حتى 4 عقارات). <a href="{{ route('properties.index') }}" class="text-brand-dark font-bold">تصفح العقارات</a></p></div>
+    <div class="card p-12 text-center text-sm text-slate-500"><p class="mt-3">اضغط على أيقونة المقارنة في أي عقار عشان تضيفه هنا (حتى 4 عقارات). <a href="{{ route('properties.index') }}" class="text-brand-dark font-bold">تصفح العقارات</a></p></div>
 @else
     @php
         $rows = [

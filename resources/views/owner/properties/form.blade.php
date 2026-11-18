@@ -38,7 +38,7 @@
             <div><label class="label">خط العرض (اختياري)</label><input name="latitude" value="{{ $v('latitude') }}" class="field" dir="ltr"></div>
             <div><label class="label">خط الطول (اختياري)</label><input name="longitude" value="{{ $v('longitude') }}" class="field" dir="ltr"></div>
         </div>
-        <p class="text-xs bg-brand-50 dark:bg-slate-800/60 rounded-lg px-3 py-2 text-slate-600"><i class="bi bi-shield-lock-fill text-brand-dark"></i> رقم العقار والدور والوحدة والعلامة المميزة مش بتظهر للزوار — بتظهر بس بعد إتمام الاتفاق وسداد نسبة المنصة.</p>
+        <p class="text-xs bg-brand-50 dark:bg-slate-800/60 rounded-lg px-3 py-2 text-slate-600">رقم العقار والدور والوحدة والعلامة المميزة مش بتظهر للزوار — بتظهر بس بعد إتمام الاتفاق وسداد نسبة المنصة.</p>
     </section>
 
     <section class="card p-6 space-y-5">
@@ -111,7 +111,7 @@
     <section class="card p-6">
         <label class="flex gap-2 items-start text-sm text-slate-600 leading-7"><input type="checkbox" name="terms" value="1" class="mt-1.5 accent-sky-500" required @checked($editing)>
             <span>أقرّ بصحة البيانات وإني المالك أو مفوّض بالتأجير، وأوافق على <a href="{{ route('terms') }}" target="_blank" class="text-brand-dark font-bold underline">شروط المنصة</a>، ونسبتها <b>{{ rtrim(rtrim(number_format($commission, 2), '0'), '.') }}%</b> من إجمالي قيمة العقد تُسدد عند إتمام الاتفاق.</span></label>
-        <div class="flex gap-3 mt-5"><button class="btn btn-brand"><i class="bi bi-check2-circle"></i> {{ $editing ? 'حفظ التعديلات' : 'إرسال للمراجعة' }}</button><a href="{{ route('owner.properties.index') }}" class="btn btn-ghost">إلغاء</a></div>
+        <div class="flex gap-3 mt-5"><button class="btn btn-brand">{{ $editing ? 'حفظ التعديلات' : 'إرسال للمراجعة' }}</button><a href="{{ route('owner.properties.index') }}" class="btn btn-ghost">إلغاء</a></div>
     </section>
 </form>
 @endsection

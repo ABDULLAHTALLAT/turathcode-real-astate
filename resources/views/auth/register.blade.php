@@ -11,7 +11,7 @@
             <label class="cursor-pointer">
                 <input type="radio" name="role" value="{{ $k }}" class="peer sr-only" @checked($r === $k)>
                 <span class="block rounded-xl border-2 border-slate-200 p-4 text-center transition peer-checked:border-brand peer-checked:bg-brand-50 dark:border-slate-700 dark:peer-checked:bg-slate-800">
-                    <i class="bi {{ $ic }} text-2xl text-brand-dark"></i>
+                    
                     <span class="block font-bold text-ink mt-1">{{ $t }}</span><span class="block text-[11px] text-slate-500">{{ $s }}</span>
                 </span>
             </label>
