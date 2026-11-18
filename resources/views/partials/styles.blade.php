@@ -1,7 +1,6 @@
 <style>
-    html { font-size: 17px; }
-    @media (min-width: 1280px) { html { font-size: 18px; } }
-    @media (min-width: 1700px) { html { font-size: 19px; } }
+    html { font-size: 15px; }
+    @media (min-width: 1024px) { html { font-size: 16px; } }
     body { font-family: 'Alexandria', sans-serif; background: #fff; }
     html { scroll-behavior: smooth; }
     .brand-gradient { background-image: linear-gradient(135deg, #a8d9f3 0%, #6bbce9 50%, #3a9ad0 100%); }
@@ -41,12 +40,15 @@
 
     /* ---------- الهيرو والأقسام (تصميم Palmenburg) ---------- */
     .hero-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.8s ease-in-out; transform:scale(1.02); }
-    .hero-slide.is-active { opacity:1; z-index:1; }
+    .hero-slide.is-active { opacity:1; }
     .hero-dot { position:relative; overflow:hidden; height:4px; width:28px; border-radius:9999px; background:rgba(255,255,255,.35); border:0; padding:0; cursor:pointer; transition:width .4s; }
     .hero-dot.is-active { width:64px; }
     .hero-dot.is-active::after { content:''; position:absolute; inset:0; background:#6bbce9; transform-origin:right center; animation:dotfill var(--hero-ms,6500ms) linear forwards; }
+    [dir=ltr] .hero-dot.is-active::after { transform-origin:left center; }
     @keyframes dotfill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
-    .hero-vignette { background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.55) 100%); }
+    .hero-side { background:linear-gradient(to left, rgba(11,36,71,.8), rgba(11,36,71,.3) 75%, transparent); }
+    html[dir=ltr] .hero-side { background:linear-gradient(to right, rgba(11,36,71,.8), rgba(11,36,71,.3) 75%, transparent); }
+    html[lang=en] .eyebrow { letter-spacing:.12em; text-transform:uppercase; }
     .eyebrow { font-size:.8rem; font-weight:700; letter-spacing:.22em; color:#1f7fb8; }
     .bar { display:block; width:64px; height:4px; border-radius:4px; background-image:linear-gradient(90deg,#6bbce9,#a8d9f3); }
     .snap-row { display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; padding-bottom:.5rem; }
