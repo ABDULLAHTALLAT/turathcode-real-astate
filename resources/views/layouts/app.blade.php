@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'بيتك في ايدك') — {{ config('site.name') }}</title>
-    <meta name="description" content="@yield('description', 'منصة بيتك في ايدك: اعرض أو استأجر المباني والشقق المعطلة في مصر بإيجار مخفض لمدة طويلة، مع تفاصيل التشطيب كاملة.')">
+    <title>@yield('title', __('بيتك في ايدك')) — {{ config('site.name') }}</title>
+    <meta name="description" content="@yield('description', __('منصة بيتك في ايدك: اعرض أو استأجر المباني والشقق المعطلة في مصر بإيجار مخفض لمدة طويلة، مع تفاصيل التشطيب كاملة.'))">
     <meta name="theme-color" content="#0b2447">
     <meta name="color-scheme" content="light dark">
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="ar_EG">
+    <meta property="og:locale" content="{{ app()->getLocale() === 'ar' ? 'ar_EG' : 'en_US' }}">
     <meta property="og:site_name" content="{{ config('site.name') }}">
-    <meta property="og:title" content="@yield('title', 'بيتك في ايدك') — {{ config('site.name') }}">
-    <meta property="og:description" content="@yield('description', 'اعرض أو استأجر المباني والشقق المعطلة في مصر بإيجار مخفض لمدة طويلة.')">
+    <meta property="og:title" content="@yield('title', __('بيتك في ايدك')) — {{ config('site.name') }}">
+    <meta property="og:description" content="@yield('description', __('اعرض أو استأجر المباني والشقق المعطلة في مصر بإيجار مخفض لمدة طويلة.'))">
     <meta property="og:image" content="@yield('og_image', asset('images/logo.png'))">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <script>
@@ -38,7 +38,7 @@
     @stack('head')
 </head>
 <body class="bg-white text-slate-800 antialiased font-sans">
-    <a href="#main" class="skip-link">تخطّي إلى المحتوى</a>
+    <a href="#main" class="skip-link">{{ __('تخطّي إلى المحتوى') }}</a>
 
     @include('partials.header')
 

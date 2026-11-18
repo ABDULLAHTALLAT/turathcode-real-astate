@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/properties', [SiteController::class, 'index'])->name('properties.index');
 Route::get('/properties/{property:slug}', [SiteController::class, 'show'])->name('properties.show');
+Route::get('/lang/{locale}', function (string $locale) {
+    if (in_array($locale, \App\Http\Middleware\SetLocale::LOCALES, true)) {
+        session(['locale' => $locale]);
+    }
+
+    return redirect()->back(fallback: route('home'));
+})->whereIn('locale', \App\Http\Middleware\SetLocale::LOCALES)->name('lang');
+
 Route::get('/how-it-works', [SiteController::class, 'how'])->name('how');
 Route::get('/about', [SiteController::class, 'about'])->name('about');
 Route::get('/terms', [SiteController::class, 'terms'])->name('terms');

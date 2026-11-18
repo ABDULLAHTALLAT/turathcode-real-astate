@@ -4,7 +4,26 @@ if (! function_exists('catalog')) {
     /** قراءة قيمة من config/catalog.php */
     function catalog(string $key, mixed $default = []): mixed
     {
-        return config("catalog.$key", $default);
+        $value = config("catalog.$key", $default);
+
+        // أسماء المحافظات بتتخزن في قاعدة البيانات بالعربي، فبنسيبها زي ما هي وبنترجم العرض بس (__($g))
+        if (app()->getLocale() === 'ar' || $key === 'governorates') {
+            return $value;
+        }
+
+        return catalog_translate($value);
+    }
+}
+
+if (! function_exists('catalog_translate')) {
+    /** يترجم كل النصوص جوه القائمة (القيم بس، المفاتيح تفضل زي ما هي) */
+    function catalog_translate(mixed $value): mixed
+    {
+        if (is_string($value)) {
+            return __($value);
+        }
+
+        return is_array($value) ? array_map('catalog_translate', $value) : $value;
     }
 }
 
@@ -12,7 +31,7 @@ if (! function_exists('egp')) {
     /** تنسيق مبلغ بالجنيه المصري */
     function egp(int|float|null $amount): string
     {
-        return number_format((float) $amount, 0, '.', ',').' ج.م';
+        return number_format((float) $amount, 0, '.', ',').' '.__('ج.م');
     }
 }
 
