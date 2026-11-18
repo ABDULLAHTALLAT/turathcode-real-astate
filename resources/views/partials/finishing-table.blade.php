@@ -5,7 +5,7 @@
     $st = catalog('item_statuses');
 @endphp
 @if ($items->isEmpty())
-    <p class="text-sm text-slate-500">لم يحدد المالك تفاصيل البنود.</p>
+    <p class="text-sm text-slate-500">{{ __('لم يحدد المالك تفاصيل البنود.') }}</p>
 @else
     <div class="grid md:grid-cols-2 gap-4">
         @foreach ($groups as $group => $defs)

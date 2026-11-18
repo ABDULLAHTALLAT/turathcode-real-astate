@@ -12,7 +12,7 @@
         @endif
         @if ($errors->any() && ! session('success'))
             <div class="rounded-xl bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 text-sm dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-200">
-                <p class="font-semibold mb-1">في مشكلة في البيانات:</p>
+                <p class="font-semibold mb-1">{{ __('في مشكلة في البيانات:') }}</p>
                 <ul class="list-disc ps-5 space-y-0.5">@foreach ($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
             </div>
         @endif
