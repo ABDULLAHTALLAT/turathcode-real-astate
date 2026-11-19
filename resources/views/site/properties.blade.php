@@ -31,7 +31,7 @@
             <select name="sort" class="field">
                 @foreach (['latest' => __('الأحدث'), 'price_asc' => __('الأرخص'), 'price_desc' => __('الأعلى سعراً'), 'area' => __('الأكبر مساحة')] as $k => $v)<option value="{{ $k }}" @selected(($filters['sort'] ?? 'latest') === $k)>{{ $v }}</option>@endforeach
             </select></div>
-        <div class="flex gap-2"><button class="sb-go !min-h-[48px] !px-4 !text-sm flex-1"><span>{{ __('عرض') }}</span><b data-count-out>{{ $properties->total() }}</b><span>{{ __('عقار') }}</span></button><a href="{{ route('properties.index') }}" class="btn btn-ghost">{{ __('مسح') }}</a></div>
+        <div class="flex gap-2"><button class="sb-go !min-h-[48px] !px-4 !text-sm flex-1"><span>{{ __('عرض') }}</span><b data-count-out>{{ $properties->total() }}</b><span>{{ __('عقار') }}</span></button><a href="{{ route('properties.index') }}" class="btn btn-ghost" aria-label="{{ __('مسح') }}" title="{{ __('مسح') }}"><x-icon name="x" class="w-5 h-5" /></a></div>
     </form>
 
     <div class="lg:col-span-3">
