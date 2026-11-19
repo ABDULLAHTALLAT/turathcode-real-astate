@@ -178,10 +178,10 @@
 
 {{-- Lightbox --}}
 <div data-lightbox class="hidden fixed inset-0 z-[120] bg-ink/90 items-center justify-center px-4">
-    <button type="button" data-lb-close class="absolute top-5 end-5 text-white/80 hover:text-white text-base px-4 h-10 rounded-full bg-white/10">{{ __('إغلاق') }}</button>
+    <button type="button" data-lb-close class="absolute top-5 end-5 text-white/80 hover:text-white w-11 h-11 inline-flex items-center justify-center rounded-full bg-white/10" aria-label="{{ __('إغلاق') }}"><x-icon name="x" class="w-5 h-5" stroke="2.2" /></button>
     <button type="button" data-lb-prev dir="ltr" class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-12 h-12 inline-flex items-center justify-center rounded-full bg-white/10 hover:bg-white/25 text-white" aria-label="{{ __('السابق') }}"><x-icon name="arrow-left" class="w-6 h-6" stroke="2.2" /></button>
     <img src="" alt="" class="max-h-[85vh] max-w-[90vw] object-contain rounded-lg">
-    <button type="button" data-lb-next dir="ltr" class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-auto px-4 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white">{{ __('التالي') }}</button>
+    <button type="button" data-lb-next dir="ltr" class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-12 h-12 inline-flex items-center justify-center rounded-full bg-white/10 hover:bg-white/25 text-white" aria-label="{{ __('التالي') }}"><x-icon name="arrow-right" class="w-6 h-6" stroke="2.2" /></button>
     <span data-lb-count class="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/80 text-sm"></span>
 </div>
 @endsection
