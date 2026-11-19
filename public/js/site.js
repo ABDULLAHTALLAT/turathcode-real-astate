@@ -132,6 +132,7 @@
         var min = +box.dataset.min, max = +box.dataset.max, step = +box.dataset.step;
         var lo = box.querySelector('[data-pr-lo]'), hi = box.querySelector('[data-pr-hi]');
         var fill = box.querySelector('[data-pr-fill]'), bins = box.querySelectorAll('.pr-bins i');
+        var nLo = box.querySelector('[data-pr-num-lo]'), nHi = box.querySelector('[data-pr-num-hi]');
         var tFrom = box.querySelector('[data-pr-from]'), tTo = box.querySelector('[data-pr-to]');
         var oMin = box.querySelector('[data-pr-min-out]'), oMax = box.querySelector('[data-pr-max-out]');
         function paint(who) {
@@ -140,13 +141,40 @@
             var pa = (a - min) / (max - min) * 100, pb = (b - min) / (max - min) * 100;
             fill.style.left = pa + '%'; fill.style.width = (pb - pa) + '%';
             bins.forEach(function (el, i) { var mid = (i + .5) / bins.length * 100; el.classList.toggle('on', mid >= pa && mid <= pb); });
-            tFrom.textContent = fmt(a); tTo.textContent = fmt(b);
+            if (tFrom) { tFrom.textContent = fmt(a); tTo.textContent = fmt(b); }
+            if (nLo) { nLo.value = a; nHi.value = b; }
+            var sum = document.querySelector('[data-pr-summary="' + (box.dataset.id || '') + '"]');
+            if (sum) sum.textContent = (a > min || b < max) ? fmt(a) + ' – ' + fmt(b) : sum.dataset.empty;
             oMin.value = a > min ? a : ''; oMax.value = b < max ? b : '';
             lo.style.zIndex = pa > 90 ? 5 : 3;
         }
         lo.addEventListener('input', function () { paint(lo); box.dispatchEvent(new Event('change', { bubbles: true })); });
         hi.addEventListener('input', function () { paint(hi); box.dispatchEvent(new Event('change', { bubbles: true })); });
+        [[nLo, lo], [nHi, hi]].forEach(function (pr) {
+            if (!pr[0]) return;
+            pr[0].addEventListener('change', function () { var v = Math.round((+pr[0].value || 0) / step) * step; pr[1].value = Math.min(max, Math.max(min, v)); paint(pr[1]); box.dispatchEvent(new Event('change', { bubbles: true })); });
+        });
         paint();
+    });
+
+    // قائمة منسدلة لنطاق السعر + تبويبات الفئة
+    document.querySelectorAll('[data-pop]').forEach(function (pop) {
+        var btn = pop.querySelector('[data-pop-btn]'), panel = pop.querySelector('[data-pop-panel]');
+        function set(open) { panel.classList.toggle('hidden', !open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+        btn.addEventListener('click', function (e) { e.stopPropagation(); set(panel.classList.contains('hidden')); });
+        pop.querySelectorAll('[data-pop-close]').forEach(function (b) { b.addEventListener('click', function () { set(false); }); });
+        document.addEventListener('click', function (e) { if (!pop.contains(e.target)) set(false); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+    });
+    document.querySelectorAll('[data-tabs]').forEach(function (tabs) {
+        var form = tabs.closest('form'), input = form.querySelector('[name=category]');
+        tabs.querySelectorAll('[data-tab]').forEach(function (t) {
+            t.addEventListener('click', function () {
+                input.value = t.dataset.tab;
+                tabs.querySelectorAll('[data-tab]').forEach(function (x) { var on = x === t; x.classList.toggle('is-on', on); x.setAttribute('aria-selected', on); });
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+        });
     });
 
     // عدّاد النتائج الحي: بيتحدّث وإنت بتغيّر أي فلتر
