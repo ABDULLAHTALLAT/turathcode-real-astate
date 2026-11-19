@@ -176,3 +176,8 @@
     .sb-step b { width: 22px; height: 22px; border-radius: 50%; background: #0b2447; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: .7rem; }
     html.dark .sb-step b { background: #6bbce9; color: #0b2447; } html.dark .sb-step { color: #6bbce9; }
 </style>
+<style>
+    /* أزرار الأيقونات على الكروت: حلقة تركيز واضحة وضغطة مريحة */
+    .ib:active { transform: scale(.94); }
+    .ib:focus-visible { outline: 3px solid #6bbce9; outline-offset: 2px; }
+</style>
