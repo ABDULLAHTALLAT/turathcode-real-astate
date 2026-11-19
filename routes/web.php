@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 // ---------------- الموقع العام ----------------
 Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/properties', [SiteController::class, 'index'])->name('properties.index');
+Route::get('/properties/count', [SiteController::class, 'count'])->name('properties.count');
 Route::get('/properties/{property:slug}', [SiteController::class, 'show'])->name('properties.show');
 Route::get('/lang/{locale}', function (string $locale) {
     if (in_array($locale, \App\Http\Middleware\SetLocale::LOCALES, true)) {

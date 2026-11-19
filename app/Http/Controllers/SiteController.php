@@ -45,6 +45,9 @@ class SiteController extends Controller
         $stageImages = array_map(fn ($u) => $u ?: $anyImage, $stageImages);
 
         return view('site.home', [
+            'price' => $this->priceStats(),
+            'govQuick' => Property::published()->selectRaw('governorate, count(*) c')->groupBy('governorate')->orderByDesc('c')->limit(5)->pluck('c', 'governorate'),
+            'total' => Property::published()->count(),
             'hero' => $hero,
             'featured' => Property::published()->with($with)->where('is_featured', true)->latest()->take(6)->get(),
             'latest' => Property::published()->with($with)->latest()->take(8)->get(),
@@ -66,6 +69,30 @@ class SiteController extends Controller
         ]);
     }
 
+    /** أرقام شريط السعر: أقل/أعلى/متوسط الإيجار + توزيع العقارات على 16 خانة */
+    private function priceStats(): array
+    {
+        $rents = Property::published()->pluck('offered_rent')->map(fn ($v) => (int) $v)->sort()->values();
+        if ($rents->isEmpty()) {
+            return ['min' => 0, 'max' => 10000, 'avg' => 0, 'median' => 0, 'step' => 500, 'bins' => array_fill(0, 16, 0)];
+        }
+        $min = (int) (floor($rents->first() / 500) * 500);
+        $max = (int) (ceil($rents->last() / 500) * 500);
+        $max = max($max, $min + 500);
+        $bins = array_fill(0, 16, 0);
+        foreach ($rents as $r) {
+            $bins[min(15, (int) floor(($r - $min) / ($max - $min) * 16))]++;
+        }
+
+        return ['min' => $min, 'max' => $max, 'avg' => (int) round($rents->avg()), 'median' => (int) $rents[intdiv($rents->count(), 2)], 'step' => 500, 'bins' => $bins];
+    }
+
+    /** عدّاد النتائج الحي في السيرش */
+    public function count(Request $request)
+    {
+        return response()->json(['count' => Property::published()->filter($request->query())->count()]);
+    }
+
     public function index(Request $request)
     {
         $sort = $request->query('sort', 'latest');
@@ -81,6 +108,8 @@ class SiteController extends Controller
         return view('site.properties', [
             'properties' => $query->paginate(12)->withQueryString(),
             'filters' => $request->query(),
+            'price' => $this->priceStats(),
+            'govQuick' => Property::published()->selectRaw('governorate, count(*) c')->groupBy('governorate')->orderByDesc('c')->limit(6)->pluck('c', 'governorate'),
         ]);
     }
 

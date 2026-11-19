@@ -124,3 +124,52 @@
         });
     });
 })();
+
+/* ===== شريط السعر + العدّاد الحي في السيرش ===== */
+(function () {
+    var fmt = function (n) { return Number(n).toLocaleString('en-US'); };
+    document.querySelectorAll('[data-price-range]').forEach(function (box) {
+        var min = +box.dataset.min, max = +box.dataset.max, step = +box.dataset.step;
+        var lo = box.querySelector('[data-pr-lo]'), hi = box.querySelector('[data-pr-hi]');
+        var fill = box.querySelector('[data-pr-fill]'), bins = box.querySelectorAll('.pr-bins i');
+        var tFrom = box.querySelector('[data-pr-from]'), tTo = box.querySelector('[data-pr-to]');
+        var oMin = box.querySelector('[data-pr-min-out]'), oMax = box.querySelector('[data-pr-max-out]');
+        function paint(who) {
+            var a = +lo.value, b = +hi.value;
+            if (a > b - step) { if (who === lo) { a = b - step; lo.value = a; } else { b = a + step; hi.value = b; } }
+            var pa = (a - min) / (max - min) * 100, pb = (b - min) / (max - min) * 100;
+            fill.style.left = pa + '%'; fill.style.width = (pb - pa) + '%';
+            bins.forEach(function (el, i) { var mid = (i + .5) / bins.length * 100; el.classList.toggle('on', mid >= pa && mid <= pb); });
+            tFrom.textContent = fmt(a); tTo.textContent = fmt(b);
+            oMin.value = a > min ? a : ''; oMax.value = b < max ? b : '';
+            lo.style.zIndex = pa > 90 ? 5 : 3;
+        }
+        lo.addEventListener('input', function () { paint(lo); box.dispatchEvent(new Event('change', { bubbles: true })); });
+        hi.addEventListener('input', function () { paint(hi); box.dispatchEvent(new Event('change', { bubbles: true })); });
+        paint();
+    });
+
+    // عدّاد النتائج الحي: بيتحدّث وإنت بتغيّر أي فلتر
+    document.querySelectorAll('form[data-live-count]').forEach(function (form) {
+        var out = form.querySelectorAll('[data-count-out]'), timer, ctl;
+        function run() {
+            var q = new URLSearchParams(new FormData(form));
+            ['_token', 'sort'].forEach(function (k) { q.delete(k); });
+            Array.from(q.keys()).forEach(function (k) { if (!q.get(k)) q.delete(k); });
+            if (ctl) ctl.abort(); ctl = new AbortController();
+            fetch(form.dataset.liveCount + '?' + q, { signal: ctl.signal, headers: { Accept: 'application/json' } })
+                .then(function (r) { return r.json(); })
+                .then(function (d) { out.forEach(function (o) { o.textContent = d.count; o.classList.remove('count-pop'); void o.offsetWidth; o.classList.add('count-pop'); }); })
+                .catch(function () {});
+        }
+        ['input', 'change'].forEach(function (ev) { form.addEventListener(ev, function () { clearTimeout(timer); timer = setTimeout(run, 220); }); });
+        form.querySelectorAll('[data-chip]').forEach(function (c) {
+            c.addEventListener('click', function () {
+                var f = form.querySelector('[name=' + c.dataset.chip + ']'); if (!f) return;
+                f.value = f.value === c.dataset.value ? '' : c.dataset.value;
+                form.querySelectorAll('[data-chip="' + c.dataset.chip + '"]').forEach(function (x) { x.classList.toggle('is-on', x.dataset.value === f.value); });
+                f.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+        });
+    });
+})();

@@ -21,16 +21,21 @@
     <div class="relative z-10 {{ $wrap }} w-full pt-20 pb-60 lg:pb-64">
         <div class="max-w-3xl">
             <p style="--d:.1s" class="hero-rise eyebrow !text-brand">{{ __('أول منصة مصرية لإحياء العقارات المعطلة') }}</p>
-            <h1 style="--d:.25s" class="hero-rise mt-6 text-3xl sm:text-4xl xl:text-5xl font-extrabold leading-[1.18]">
-                {{ __('بيتك') }} <span class="brand-text">{{ __('في ايدك') }}</span><br>{{ __('عقار معطل؟ خلّيه يشتغل.') }}
+            <h1 class="hero-title mt-5 text-3xl sm:text-4xl xl:text-[3.4rem] font-extrabold">
+                <span class="ln"><span style="--d:.25s">{{ __('بيتك') }} <span class="brand-shine">{{ __('في ايدك') }}</span></span></span>
+                <span class="ln"><span style="--d:.5s">{{ __('عقار معطل؟ خلّيه يشتغل.') }}</span></span>
             </h1>
-            <p style="--d:.45s" class="hero-rise mt-7 text-base sm:text-base text-white/80 leading-9 max-w-2xl">
+            <p style="--d:.8s" class="hero-rise mt-6 text-base sm:text-base text-white/80 leading-9 max-w-2xl">
                 {{ __('اعرض مبنى أو شقة فاضية من سنين بتفاصيل التشطيب الحقيقية، واتفق مع مستأجر يكمّل التشطيب ويستأجر لمدة طويلة بسعر أقل من السوق. أو دوّر على عقار بسعر ذكي وأنت اللي تظبطه على ذوقك.') }}
             </p>
-            <div style="--d:.65s" class="hero-rise mt-10 flex flex-wrap gap-4">
+            <div style="--d:1s" class="hero-rise mt-10 flex flex-wrap gap-4">
                 <a href="{{ route('register', ['role' => 'owner']) }}" class="btn btn-brand !min-h-[48px] !px-9 !text-sm shadow-lg shadow-brand/20">{{ __('أنا مالك وعايز أعرض عقاري') }}</a>
                 <a href="{{ route('properties.index') }}" class="btn !min-h-[48px] !px-9 !text-sm border border-white/40 text-white hover:border-brand hover:text-brand backdrop-blur-sm">{{ __('أدور على عقار') }}</a>
             </div>
+        </div>
+        <div class="hidden lg:flex flex-col gap-4 absolute end-10 top-1/2 -translate-y-[60%] w-60" aria-hidden="true">
+            <div style="--d:0s" class="hero-float rounded-2xl bg-white/12 backdrop-blur-md ring-1 ring-white/25 p-4"><p class="text-[11px] text-white/70">{{ __('عقار متاح الآن') }}</p><p class="text-2xl font-extrabold mt-1" dir="ltr">{{ number_format($total) }}</p></div>
+            <div style="--d:1.2s" class="hero-float rounded-2xl bg-white/12 backdrop-blur-md ring-1 ring-white/25 p-4 ms-8"><p class="text-[11px] text-white/70">{{ __('متوسط الإيجار الشهري') }}</p><p class="text-2xl font-extrabold mt-1 text-brand" dir="ltr">{{ number_format($price['avg']) }} <span class="text-xs font-semibold text-white/70">{{ __('ج.م') }}</span></p></div>
         </div>
     </div>
 
@@ -53,27 +58,27 @@
 
 {{-- ====================== SEARCH (نص على الهيرو ونص تحته) ====================== --}}
 <div class="relative z-20 -mt-36 sm:-mt-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-    <form action="{{ route('properties.index') }}" method="GET" class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-black/25 ring-1 ring-black/5 p-6 sm:p-9">
-        <div class="flex items-end justify-between gap-4 mb-6">
-            <div>
-                <p class="eyebrow">{{ __('ابحث') }}</p>
-                <h2 class="text-xl sm:text-2xl font-extrabold text-ink mt-1">{{ __('دوّر على عقارك') }}</h2>
+    <form action="{{ route('properties.index') }}" method="GET" data-live-count="{{ route('properties.count') }}" class="sb rounded-[1.75rem] shadow-2xl shadow-black/25 ring-1 ring-black/5 p-4 sm:p-6 lg:p-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 px-1 pb-5">
+            <div class="flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-ink text-brand flex items-center justify-center"><x-icon name="search" class="w-5 h-5" stroke="2" /></span>
+                <div><h2 class="text-lg font-extrabold text-ink leading-tight">{{ __('دوّر على عقارك') }}</h2><p class="text-xs text-slate-500">{{ __('فلتر وشوف النتيجة قدامك لحظة بلحظة') }}</p></div></div>
+            <div class="flex flex-wrap gap-2" role="group" aria-label="{{ __('اختصارات') }}">
+                @foreach ($govQuick ?? [] as $g => $n)<button type="button" class="sb-chip" data-chip="governorate" data-value="{{ $g }}">{{ __($g) }}</button>@endforeach
             </div>
-            <a href="{{ route('properties.index') }}" class="hidden sm:block text-sm font-semibold text-brand-dark hover:underline">{{ __('عرض كل العقارات ←') }}</a>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-6 gap-4">
-            <div class="lg:col-span-2"><label class="label">{{ __('ابحث بالمنطقة أو الاسم') }}</label><input name="q" class="field" placeholder="{{ __('مثال: مدينة نصر، المنصورة…') }}"></div>
-            <div><label class="label">{{ __('المحافظة') }}</label>
-                <select name="governorate" class="field"><option value="">{{ __('كل المحافظات') }}</option>@foreach (catalog('governorates') as $g)<option value="{{ $g }}">{{ __($g) }}</option>@endforeach</select></div>
-            <div><label class="label">{{ __('نوع العقار') }}</label>
-                <select name="type" class="field"><option value="">{{ __('الكل') }}</option>@foreach (catalog('property_types') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></div>
-            <div><label class="label">{{ __('مرحلة التشطيب') }}</label>
-                <select name="stage" class="field"><option value="">{{ __('الكل') }}</option>@foreach ($stages as $k => $v)<option value="{{ $k }}">{{ $v['label'] }}</option>@endforeach</select></div>
-            <div><label class="label">{{ __('الغرض') }}</label>
-                <select name="purpose" class="field"><option value="">{{ __('الكل') }}</option>@foreach (catalog('purposes') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></div>
-            <div class="lg:col-span-2"><label class="label">{{ __('أقصى إيجار شهري (ج.م)') }}</label><input type="number" name="max_price" min="0" class="field" placeholder="{{ __('مثال: 15000') }}"></div>
-            <div><label class="label">{{ __('مدة العقد (سنين)') }}</label><input type="number" name="years" min="1" class="field" placeholder="{{ __('مثال: 5') }}"></div>
-            <div class="lg:col-span-3 flex items-end"><button class="btn btn-primary w-full !min-h-[44px] !text-sm">{{ __('ابحث') }}</button></div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-12 gap-3">
+            <label class="sb-field lg:col-span-4"><x-icon name="search" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('ابحث بالمنطقة أو الاسم') }}</small><input name="q" autocomplete="off" placeholder="{{ __('مثال: مدينة نصر، المنصورة…') }}"></span></label>
+            <label class="sb-field lg:col-span-2"><x-icon name="pin" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('المحافظة') }}</small><select name="governorate"><option value="">{{ __('كل المحافظات') }}</option>@foreach (catalog('governorates') as $g)<option value="{{ $g }}">{{ __($g) }}</option>@endforeach</select></span></label>
+            <label class="sb-field lg:col-span-2"><x-icon name="building" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('نوع العقار') }}</small><select name="type"><option value="">{{ __('الكل') }}</option>@foreach (catalog('property_types') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></span></label>
+            <label class="sb-field lg:col-span-2"><x-icon name="layers" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('مرحلة التشطيب') }}</small><select name="stage"><option value="">{{ __('الكل') }}</option>@foreach ($stages as $k => $v)<option value="{{ $k }}">{{ $v['label'] }}</option>@endforeach</select></span></label>
+            <label class="sb-field lg:col-span-2"><x-icon name="target" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('الغرض') }}</small><select name="purpose"><option value="">{{ __('الكل') }}</option>@foreach (catalog('purposes') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></span></label>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-5 lg:gap-8 items-end mt-5 pt-5 border-t border-slate-200/70 dark:border-slate-700">
+            <div class="lg:col-span-7">@include('partials.price-range', ['price' => $price])</div>
+            <label class="sb-field lg:col-span-2"><x-icon name="calendar" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('مدة العقد (سنين)') }}</small><input type="number" name="years" min="1" placeholder="{{ __('مثال: 5') }}"></span></label>
+            <div class="lg:col-span-3"><button class="sb-go"><span>{{ __('عرض') }}</span><b data-count-out>{{ $total }}</b><span>{{ __('عقار') }}</span><x-icon name="arrow-right" class="w-5 h-5" stroke="2.2" /></button></div>
         </div>
     </form>
 </div>

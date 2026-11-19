@@ -8,7 +8,7 @@
 </div></section>
 
 <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-4 gap-8">
-    <form method="GET" class="lg:col-span-1 card p-5 h-fit lg:sticky lg:top-20 space-y-4" aria-label="{{ __('فلترة العقارات') }}">
+    <form method="GET" data-live-count="{{ route('properties.count') }}" class="lg:col-span-1 card p-5 h-fit lg:sticky lg:top-20 space-y-4" aria-label="{{ __('فلترة العقارات') }}">
         <h2 class="font-bold text-ink flex items-center gap-2">{{ __('فلترة النتائج') }}</h2>
         <div><label class="label">{{ __('بحث') }}</label><input name="q" value="{{ $filters['q'] ?? '' }}" class="field" placeholder="{{ __('منطقة أو اسم') }}"></div>
         <div><label class="label">{{ __('المحافظة') }}</label>
@@ -19,10 +19,7 @@
             <select name="stage" class="field"><option value="">{{ __('الكل') }}</option>@foreach (catalog('finishing_stages') as $k => $v)<option value="{{ $k }}" @selected(($filters['stage'] ?? '') === $k)>{{ $v['label'] }}</option>@endforeach</select></div>
         <div><label class="label">{{ __('الغرض') }}</label>
             <select name="purpose" class="field"><option value="">{{ __('الكل') }}</option>@foreach (catalog('purposes') as $k => $v)<option value="{{ $k }}" @selected(($filters['purpose'] ?? '') === $k)>{{ $v }}</option>@endforeach</select></div>
-        <div class="grid grid-cols-2 gap-2">
-            <div><label class="label">{{ __('إيجار من') }}</label><input type="number" name="min_price" min="0" step="500" inputmode="numeric" value="{{ $filters['min_price'] ?? '' }}" class="field"></div>
-            <div><label class="label">{{ __('إلى') }}</label><input type="number" name="max_price" min="0" step="500" inputmode="numeric" value="{{ $filters['max_price'] ?? '' }}" class="field"></div>
-        </div>
+        @include('partials.price-range', ['price' => $price, 'from' => $filters['min_price'] ?? 0, 'to' => $filters['max_price'] ?? 0])
         <div class="grid grid-cols-2 gap-2">
             <div><label class="label">{{ __('مساحة من (م²)') }}</label><input type="number" name="min_area" value="{{ $filters['min_area'] ?? '' }}" class="field"></div>
             <div><label class="label">{{ __('مدة (سنين)') }}</label><input type="number" name="years" value="{{ $filters['years'] ?? '' }}" class="field"></div>
@@ -31,10 +28,11 @@
             <select name="sort" class="field">
                 @foreach (['latest' => __('الأحدث'), 'price_asc' => __('الأرخص'), 'price_desc' => __('الأعلى سعراً'), 'area' => __('الأكبر مساحة')] as $k => $v)<option value="{{ $k }}" @selected(($filters['sort'] ?? 'latest') === $k)>{{ $v }}</option>@endforeach
             </select></div>
-        <div class="flex gap-2"><button class="btn btn-primary flex-1">{{ __('تطبيق') }}</button><a href="{{ route('properties.index') }}" class="btn btn-ghost">{{ __('مسح') }}</a></div>
+        <div class="flex gap-2"><button class="sb-go !min-h-[48px] !px-4 !text-sm flex-1"><span>{{ __('عرض') }}</span><b data-count-out>{{ $properties->total() }}</b><span>{{ __('عقار') }}</span></button><a href="{{ route('properties.index') }}" class="btn btn-ghost">{{ __('مسح') }}</a></div>
     </form>
 
     <div class="lg:col-span-3">
+        <div class="flex flex-wrap gap-2 mb-5">@foreach ($govQuick as $g => $n)<a href="{{ route('properties.index', array_merge(collect($filters)->except('page')->all(), ['governorate' => $g])) }}" class="sb-chip {{ ($filters['governorate'] ?? '') === $g ? 'is-on' : '' }}">{{ __($g) }} <span class="opacity-60">{{ $n }}</span></a>@endforeach</div>
         @php
             $labels = ['q' => __('بحث'), 'governorate' => __('محافظة'), 'type' => __('النوع'), 'stage' => __('التشطيب'), 'purpose' => __('الغرض'), 'min_price' => __('إيجار من'), 'max_price' => __('إيجار حتى'), 'min_area' => __('مساحة من'), 'years' => __('سنين')];
             $active = collect($filters)->only(array_keys($labels))->filter(fn ($v) => $v !== null && $v !== '');
