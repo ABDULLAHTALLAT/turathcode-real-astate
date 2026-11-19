@@ -36,10 +36,10 @@
 
         <div class="flex items-center gap-2">
             <a href="{{ route('lang', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" hreflang="{{ app()->getLocale() === 'ar' ? 'en' : 'ar' }}" class="hidden sm:inline-flex {{ $pill }} !px-4" aria-label="{{ app()->getLocale() === 'ar' ? 'Switch to English' : 'التبديل للعربية' }}"><x-icon name="globe" class="w-[18px] h-[18px]" />{{ app()->getLocale() === 'ar' ? 'EN' : 'عربي' }}</a>
-            <a href="{{ route('compare') }}" class="hidden sm:inline-flex {{ $pill }}">{{ __('المقارنة') }} @if ($cmpCount)<span class="bg-brand text-ink text-[11px] font-bold min-w-[20px] h-5 px-1 rounded-full inline-flex items-center justify-center">{{ $cmpCount }}</span>@endif</a>
+            <a href="{{ route('compare') }}" class="hidden sm:inline-flex {{ $pill }}"><x-icon name="scale" class="w-[18px] h-[18px]" />{{ __('المقارنة') }} @if ($cmpCount)<span class="bg-brand text-ink text-[11px] font-bold min-w-[20px] h-5 px-1 rounded-full inline-flex items-center justify-center">{{ $cmpCount }}</span>@endif</a>
             @auth
                 @if ($user->isTenant())
-                    <a href="{{ route('favorites') }}" class="hidden sm:inline-flex {{ $pill }}">{{ __('المفضلة') }}</a>
+                    <a href="{{ route('favorites') }}" class="hidden sm:inline-flex {{ $pill }}"><x-icon name="heart" class="w-[18px] h-[18px]" />{{ __('المفضلة') }}</a>
                 @endif
                 <a href="{{ route('dashboard') }}" class="hidden sm:flex items-center gap-2 ps-1 pe-5 h-11 rounded-full bg-white/10 hover:bg-white/20 transition">
                     <img src="{{ $user->avatar_url }}" class="w-9 h-9 rounded-full object-cover" alt="">
