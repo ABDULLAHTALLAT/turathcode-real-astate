@@ -14,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Paginator::useTailwind();
+        Paginator::defaultView('pagination.arrows');
+        Paginator::defaultSimpleView('pagination.arrows');
         \Carbon\Carbon::setLocale('ar');
     }
 }
