@@ -35,7 +35,7 @@
         </nav>
 
         <div class="flex items-center gap-2">
-            <a href="{{ route('lang', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" hreflang="{{ app()->getLocale() === 'ar' ? 'en' : 'ar' }}" class="hidden sm:inline-flex {{ $pill }} !px-4 font-semibold" aria-label="{{ app()->getLocale() === 'ar' ? 'Switch to English' : 'التبديل للعربية' }}">{{ app()->getLocale() === 'ar' ? 'EN' : 'عربي' }}</a>
+            <a href="{{ route('lang', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" hreflang="{{ app()->getLocale() === 'ar' ? 'en' : 'ar' }}" class="hidden sm:inline-flex {{ $pill }} !px-4" aria-label="{{ app()->getLocale() === 'ar' ? 'Switch to English' : 'التبديل للعربية' }}"><x-icon name="globe" class="w-[18px] h-[18px]" />{{ app()->getLocale() === 'ar' ? 'EN' : 'عربي' }}</a>
             <a href="{{ route('compare') }}" class="hidden sm:inline-flex {{ $pill }}">{{ __('المقارنة') }} @if ($cmpCount)<span class="bg-brand text-ink text-[11px] font-bold min-w-[20px] h-5 px-1 rounded-full inline-flex items-center justify-center">{{ $cmpCount }}</span>@endif</a>
             @auth
                 @if ($user->isTenant())
