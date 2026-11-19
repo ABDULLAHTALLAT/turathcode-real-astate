@@ -46,10 +46,10 @@
                     <span class="text-sm font-semibold max-w-[120px] truncate">{{ $user->name }}</span>
                 </a>
                 <form method="POST" action="{{ route('logout') }}" class="hidden sm:block">@csrf
-                    <button class="h-11 px-5 rounded-full border border-white/25 hover:border-rose-400 hover:text-rose-300 text-sm font-medium transition">{{ __('خروج') }}</button>
+                    <button class="h-11 px-5 rounded-full border border-white/25 hover:border-rose-400 hover:text-rose-300 text-[15px] font-semibold transition inline-flex items-center gap-2"><x-icon name="log-out" class="w-[18px] h-[18px]" />{{ __('خروج') }}</button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="hidden sm:inline-flex {{ $pill }}">{{ __('دخول') }}</a>
+                <a href="{{ route('login') }}" class="hidden sm:inline-flex {{ $pill }}"><x-icon name="log-in" class="w-[18px] h-[18px]" />{{ __('دخول') }}</a>
                 <a href="{{ route('register') }}" class="hidden sm:inline-flex btn btn-brand !h-11 !px-6">{{ __('سجّل مجاناً') }}</a>
             @endauth
             <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobileDrawer" class="lg:hidden h-11 px-5 rounded-full border border-white/30 text-brand text-sm font-semibold" aria-label="{{ __('القائمة') }}">{{ __('القائمة') }}</button>
