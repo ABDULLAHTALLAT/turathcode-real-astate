@@ -15,8 +15,8 @@
     <div class="hidden lg:block border-b border-white/10">
         <div class="max-w-screen-2xl mx-auto px-6 lg:px-10 h-11 flex items-center justify-between text-xs text-white/75">
             <div class="flex items-center gap-8">
-                <a href="tel:{{ preg_replace('/\s+/', '', config('site.phone')) }}" class="hover:text-brand" dir="ltr">{{ config('site.phone') }}</a>
-                <a href="mailto:{{ config('site.email') }}" class="hover:text-brand">{{ config('site.email') }}</a>
+                <a href="tel:{{ preg_replace('/\s+/', '', config('site.phone')) }}" class="hover:text-brand inline-flex items-center gap-2" dir="ltr"><x-icon name="phone" class="w-4 h-4" />{{ config('site.phone') }}</a>
+                <a href="mailto:{{ config('site.email') }}" class="hover:text-brand inline-flex items-center gap-2"><x-icon name="mail" class="w-4 h-4" />{{ config('site.email') }}</a>
             </div>
             <span class="text-white/55">{{ __('منصة لإحياء العقارات المعطلة في مصر') }}</span>
         </div>
