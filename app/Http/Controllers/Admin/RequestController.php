@@ -17,6 +17,24 @@ class RequestController extends Controller
         return view('admin.requests', compact('requests'));
     }
 
+    /** تصدير الطلبات والعمولات CSV (يفتح في Excel بالعربي) */
+    public function export(Request $request)
+    {
+        $rows = RentalRequest::with(['property', 'tenant', 'owner'])
+            ->when($request->query('status'), fn ($q, $s) => $q->where('status', $s))->latest()->get();
+
+        return response()->streamDownload(function () use ($rows) {
+            $out = fopen('php://output', 'w');
+            fwrite($out, "\xEF\xBB\xBF");
+            fputcsv($out, ['الكود', 'العقار', 'المالك', 'المستأجر', 'الحالة', 'الإيجار الشهري', 'السنين', 'إجمالي العقد', 'نسبة المالك', 'نسبة المستأجر', 'المحصّل', 'تاريخ الطلب']);
+            foreach ($rows as $r) {
+                fputcsv($out, [$r->code, $r->property?->title, $r->owner?->name, $r->tenant?->name, $r->status_label, $r->proposed_rent, $r->lease_years,
+                    $r->total_value, $r->owner_commission, $r->tenant_commission, $r->paid_earnings, $r->created_at->format('Y-m-d')]);
+            }
+            fclose($out);
+        }, 'bayt-requests-'.now()->format('Ymd').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
+    }
+
     /** تسجيل سداد نسبة المنصة من المالك أو المستأجر */
     public function markPaid(Request $request, RentalRequest $rentalRequest)
     {

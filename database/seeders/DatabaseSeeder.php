@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             RentalRequestsSeeder::class,
             FavoritesSeeder::class,
             MessagesSeeder::class,
+            DemoTimelineSeeder::class,
         ]);
     }
 }

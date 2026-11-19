@@ -28,17 +28,25 @@
 @endphp
 
 @section('content')
-<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid lg:grid-cols-4 gap-8">
-    <aside class="lg:col-span-1">
+<div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[250px_minmax(0,1fr)] gap-8">
+    <aside>
         <div class="card p-5 lg:sticky lg:top-20">
             <div class="flex items-center gap-3 pb-4 border-b border-slate-100 dark:border-slate-700">
                 <img src="{{ $u->avatar_url }}" class="w-12 h-12 rounded-full object-cover" alt="">
                 <div class="min-w-0"><p class="font-bold text-ink truncate">{{ $u->name }}</p><span class="text-[11px] bg-brand-50 text-brand-dark font-bold px-2 py-0.5 rounded-full">{{ $u->role_label }}</span></div>
             </div>
             <nav class="mt-3 flex lg:flex-col gap-1 overflow-x-auto text-sm">
+                @php
+                    $badges = $u->role === 'admin' ? [
+                        'admin.properties' => \App\Models\Property::where('status', 'pending')->count(),
+                        'admin.requests' => \App\Models\RentalRequest::where('status', 'accepted')->count(),
+                        'admin.messages' => \App\Models\ContactMessage::where('is_read', false)->count(),
+                    ] : [];
+                @endphp
                 @foreach ($nav as [$route, $label, $icon, $pattern])
                     <a href="{{ route($route) }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl whitespace-nowrap transition {{ request()->routeIs($pattern) ? 'bg-ink text-white font-semibold dark:bg-brand dark:text-ink' : 'text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800' }}">
                         {{ $label }}
+                        @if (($badges[$route] ?? 0) > 0)<span class="ms-auto text-[11px] font-bold rounded-full px-2 py-0.5 {{ request()->routeIs($pattern) ? 'bg-white/20' : 'bg-amber-100 text-amber-800' }}">{{ $badges[$route] }}</span>@endif
                     </a>
                 @endforeach
                 <form method="POST" action="{{ route('logout') }}" class="lg:mt-2 lg:pt-2 lg:border-t border-slate-100 dark:border-slate-700">@csrf
@@ -47,7 +55,7 @@
             </nav>
         </div>
     </aside>
-    <section class="lg:col-span-3 min-w-0 space-y-6">
+    <section class="min-w-0 space-y-6">
         @yield('panel')
     </section>
 </div>

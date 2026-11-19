@@ -78,6 +78,7 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::post('users/{user}/toggle', [Admin\UserController::class, 'toggle'])->name('users.toggle');
 
         Route::get('requests', [Admin\RequestController::class, 'index'])->name('requests');
+        Route::get('requests/export', [Admin\RequestController::class, 'export'])->name('requests.export');
         Route::post('requests/{rentalRequest}/paid', [Admin\RequestController::class, 'markPaid'])->name('requests.paid');
         Route::post('requests/{rentalRequest}/note', [Admin\RequestController::class, 'note'])->name('requests.note');
 

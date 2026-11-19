@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Property;
 use App\Models\RentalRequest;
 use App\Models\User;
+use App\Services\AdminAnalytics;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -15,7 +16,7 @@ class DashboardController extends Controller
         $user = $request->user();
 
         return match ($user->role) {
-            'admin' => $this->admin(),
+            'admin' => $this->admin($request),
             'owner' => $this->owner($user),
             default => $this->tenant($user),
         };
@@ -62,31 +63,10 @@ class DashboardController extends Controller
         ]);
     }
 
-    private function admin()
+    private function admin(Request $request)
     {
-        $done = RentalRequest::where('status', 'completed');
+        $analytics = new AdminAnalytics((int) $request->query('range', 30));
 
-        return view('dashboards.admin', [
-            'counts' => [
-                'users' => User::where('role', '!=', 'admin')->count(),
-                'owners' => User::where('role', 'owner')->count(),
-                'tenants' => User::where('role', 'tenant')->count(),
-                'pendingProps' => Property::where('status', 'pending')->count(),
-                'published' => Property::where('status', 'approved')->count(),
-                'rented' => Property::where('status', 'rented')->count(),
-                'openRequests' => RentalRequest::whereIn('status', ['pending', 'negotiating'])->count(),
-                'awaitingPay' => RentalRequest::where('status', 'accepted')->count(),
-            ],
-            // أرباح المنصة
-            'earnings' => [
-                'collected' => RentalRequest::whereIn('status', ['accepted', 'completed'])->get()->sum->paid_earnings,
-                'expected' => (int) RentalRequest::where('status', 'accepted')->selectRaw('sum(coalesce(owner_commission,0)+coalesce(tenant_commission,0)) s')->value('s')
-                    - (int) RentalRequest::where('status', 'accepted')->get()->sum->paid_earnings,
-                'contracts' => (int) $done->sum('total_value'),
-            ],
-            'pendingProperties' => Property::where('status', 'pending')->with(['images', 'owner'])->latest()->take(5)->get(),
-            'awaitingPayment' => RentalRequest::where('status', 'accepted')->with(['property', 'tenant', 'owner'])->latest()->take(6)->get(),
-            'latestUsers' => User::where('role', '!=', 'admin')->latest()->take(6)->get(),
-        ]);
+        return view('dashboards.admin', ['a' => $analytics->build(), 'ranges' => AdminAnalytics::RANGES]);
     }
 }
