@@ -160,3 +160,13 @@
     .pr-in:focus-visible::-webkit-slider-thumb { outline: 3px solid #6bbce9; outline-offset: 2px; }
     .pr-in::-webkit-slider-runnable-track { background: none; } .pr-in::-moz-range-track { background: none; }
 </style>
+<style>
+    /* ---------- أسهم الصفحات ---------- */
+    .pg-arrow { width: 52px; height: 52px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #d5deea; background: #fff; color: #0b2447; box-shadow: 0 6px 16px -8px rgba(11,36,71,.35); transition: .18s; }
+    a.pg-arrow:hover { background: #0b2447; color: #fff; border-color: #0b2447; transform: translateY(-2px); }
+    .pg-arrow.is-off { opacity: .38; box-shadow: none; cursor: not-allowed; }
+    html.dark .pg-arrow { background: #111a2e; border-color: #2a3857; color: #e2e8f0; }
+    html.dark a.pg-arrow:hover { background: #6bbce9; color: #0b2447; }
+    /* في الإنجليزي السهم بيتعكس عشان "السابق" يبقى شمال */
+    [dir=ltr] .pg-arrow svg { transform: scaleX(-1); }
+</style>
