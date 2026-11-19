@@ -9,7 +9,7 @@
 
 <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-4 gap-8">
     <form method="GET" data-live-count="{{ route('properties.count') }}" class="lg:col-span-1 card p-5 h-fit lg:sticky lg:top-20 space-y-4" aria-label="{{ __('فلترة العقارات') }}">
-        <h2 class="font-bold text-ink flex items-center gap-2">{{ __('فلترة النتائج') }}</h2>
+        <h2 class="font-bold text-ink flex items-center gap-2"><x-icon name="sliders" class="w-5 h-5 text-brand-dark" />{{ __('فلترة النتائج') }}</h2>
         <p class="sb-step"><b>1</b>{{ __('المكان') }}</p>
         <div><label class="label">{{ __('بحث') }}</label><input name="q" value="{{ $filters['q'] ?? '' }}" class="field" placeholder="{{ __('منطقة أو اسم') }}"></div>
         <div><label class="label">{{ __('المحافظة') }}</label>
