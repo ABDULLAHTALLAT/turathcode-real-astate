@@ -50,7 +50,7 @@
                     </a>
                 @endforeach
                 <form method="POST" action="{{ route('logout') }}" class="lg:mt-2 lg:pt-2 lg:border-t border-slate-100 dark:border-slate-700">@csrf
-                    <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 whitespace-nowrap">خروج</button>
+                    <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 whitespace-nowrap"><x-icon name="log-out" class="w-[18px] h-[18px]" />خروج</button>
                 </form>
             </nav>
         </div>
