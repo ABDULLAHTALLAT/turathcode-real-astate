@@ -10,15 +10,18 @@
 <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid lg:grid-cols-4 gap-8">
     <form method="GET" data-live-count="{{ route('properties.count') }}" class="lg:col-span-1 card p-5 h-fit lg:sticky lg:top-20 space-y-4" aria-label="{{ __('فلترة العقارات') }}">
         <h2 class="font-bold text-ink flex items-center gap-2">{{ __('فلترة النتائج') }}</h2>
+        <p class="sb-step"><b>1</b>{{ __('المكان') }}</p>
         <div><label class="label">{{ __('بحث') }}</label><input name="q" value="{{ $filters['q'] ?? '' }}" class="field" placeholder="{{ __('منطقة أو اسم') }}"></div>
         <div><label class="label">{{ __('المحافظة') }}</label>
             <select name="governorate" class="field"><option value="">{{ __('الكل') }}</option>@foreach (catalog('governorates') as $g)<option value="{{ $g }}" @selected(($filters['governorate'] ?? '') === $g)>{{ __($g) }}</option>@endforeach</select></div>
+        <p class="sb-step pt-2"><b>2</b>{{ __('العقار') }}</p>
         <div><label class="label">{{ __('نوع العقار') }}</label>
             <select name="type" class="field"><option value="">{{ __('الكل') }}</option>@foreach (catalog('property_types') as $k => $v)<option value="{{ $k }}" @selected(($filters['type'] ?? '') === $k)>{{ $v }}</option>@endforeach</select></div>
         <div><label class="label">{{ __('مرحلة التشطيب') }}</label>
             <select name="stage" class="field"><option value="">{{ __('الكل') }}</option>@foreach (catalog('finishing_stages') as $k => $v)<option value="{{ $k }}" @selected(($filters['stage'] ?? '') === $k)>{{ $v['label'] }}</option>@endforeach</select></div>
         <div><label class="label">{{ __('الغرض') }}</label>
             <select name="purpose" class="field"><option value="">{{ __('الكل') }}</option>@foreach (catalog('purposes') as $k => $v)<option value="{{ $k }}" @selected(($filters['purpose'] ?? '') === $k)>{{ $v }}</option>@endforeach</select></div>
+        <p class="sb-step pt-2"><b>3</b>{{ __('السعر والمدة') }}</p>
         @include('partials.price-range', ['price' => $price, 'from' => $filters['min_price'] ?? 0, 'to' => $filters['max_price'] ?? 0])
         <div class="grid grid-cols-2 gap-2">
             <div><label class="label">{{ __('مساحة من (م²)') }}</label><input type="number" name="min_area" value="{{ $filters['min_area'] ?? '' }}" class="field"></div>
