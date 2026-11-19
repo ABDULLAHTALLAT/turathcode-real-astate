@@ -34,23 +34,22 @@
             @endforeach
         </nav>
 
-        <div class="flex items-center gap-2">
-            <a href="{{ route('lang', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" hreflang="{{ app()->getLocale() === 'ar' ? 'en' : 'ar' }}" class="hidden sm:inline-flex {{ $pill }} !px-4" aria-label="{{ app()->getLocale() === 'ar' ? 'Switch to English' : 'التبديل للعربية' }}"><x-icon name="globe" class="w-[18px] h-[18px]" />{{ app()->getLocale() === 'ar' ? 'EN' : 'عربي' }}</a>
-            <a href="{{ route('compare') }}" class="hidden sm:inline-flex {{ $pill }}"><x-icon name="scale" class="w-[18px] h-[18px]" />{{ __('المقارنة') }} @if ($cmpCount)<span class="bg-brand text-ink text-[11px] font-bold min-w-[20px] h-5 px-1 rounded-full inline-flex items-center justify-center">{{ $cmpCount }}</span>@endif</a>
+        <div class="flex items-center gap-1.5">
+            <a href="{{ route('lang', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" hreflang="{{ app()->getLocale() === 'ar' ? 'en' : 'ar' }}" class="hidden sm:inline-flex items-center gap-1.5 h-10 px-3 rounded-full text-[15px] font-semibold text-white/90 hover:text-brand hover:bg-white/10 transition" aria-label="{{ app()->getLocale() === 'ar' ? 'Switch to English' : 'التبديل للعربية' }}">{{ app()->getLocale() === 'ar' ? 'English' : 'عربي' }}<x-icon name="globe" class="w-[18px] h-[18px]" stroke="1.6" /></a>
+            <button type="button" data-theme-toggle class="nb" aria-label="{{ __('تبديل الوضع الليلي') }}" title="{{ __('تبديل الوضع الليلي') }}"><span class="nb-sun"><x-icon name="sun" class="w-[21px] h-[21px]" stroke="1.6" /></span><span class="nb-moon"><x-icon name="moon" class="w-[21px] h-[21px]" stroke="1.6" /></span></button>
+            <a href="{{ $user && $user->isTenant() ? route('favorites') : route('login') }}" class="nb hidden sm:inline-flex" aria-label="{{ __('المفضلة') }}" title="{{ __('المفضلة') }}"><x-icon name="heart" class="w-[21px] h-[21px]" stroke="1.6" /></a>
+            <a href="{{ route('compare') }}" class="nb" aria-label="{{ __('المقارنة') }}" title="{{ __('المقارنة') }}"><x-icon name="compare" class="w-[21px] h-[21px]" stroke="1.6" />@if ($cmpCount)<span class="nb-badge">{{ $cmpCount }}</span>@endif</a>
             @auth
-                @if ($user->isTenant())
-                    <a href="{{ route('favorites') }}" class="hidden sm:inline-flex {{ $pill }}"><x-icon name="heart" class="w-[18px] h-[18px]" />{{ __('المفضلة') }}</a>
-                @endif
-                <a href="{{ route('dashboard') }}" class="hidden sm:flex items-center gap-2 ps-1 pe-5 h-11 rounded-full bg-white/10 hover:bg-white/20 transition">
-                    <img src="{{ $user->avatar_url }}" class="w-9 h-9 rounded-full object-cover" alt="">
-                    <span class="text-sm font-semibold max-w-[120px] truncate">{{ $user->name }}</span>
+                <a href="{{ route('dashboard') }}" class="hidden sm:flex items-center gap-2 ms-1 ps-1 pe-4 h-10 rounded-full bg-white/10 hover:bg-white/20 transition" title="{{ __('لوحتي') }}">
+                    <img src="{{ $user->avatar_url }}" class="w-8 h-8 rounded-full object-cover" alt="">
+                    <span class="text-sm font-semibold max-w-[110px] truncate">{{ $user->name }}</span>
                 </a>
                 <form method="POST" action="{{ route('logout') }}" class="hidden sm:block">@csrf
-                    <button class="h-11 px-5 rounded-full border border-white/25 hover:border-rose-400 hover:text-rose-300 text-[15px] font-semibold transition inline-flex items-center gap-2"><x-icon name="log-out" class="w-[18px] h-[18px]" />{{ __('خروج') }}</button>
+                    <button class="nb hover:!text-rose-300" aria-label="{{ __('خروج') }}" title="{{ __('خروج') }}"><x-icon name="log-out" class="w-[21px] h-[21px]" stroke="1.6" /></button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="hidden sm:inline-flex {{ $pill }}"><x-icon name="log-in" class="w-[18px] h-[18px]" />{{ __('دخول') }}</a>
-                <a href="{{ route('register') }}" class="hidden sm:inline-flex btn btn-brand !h-11 !px-6">{{ __('سجّل مجاناً') }}</a>
+                <a href="{{ route('login') }}" class="nb hidden sm:inline-flex" aria-label="{{ __('دخول') }}" title="{{ __('دخول') }}"><x-icon name="user" class="w-[21px] h-[21px]" stroke="1.6" /></a>
+                <a href="{{ route('register') }}" class="hidden sm:inline-flex btn btn-brand !h-10 !min-h-0 !px-5 ms-1">{{ __('سجّل مجاناً') }}</a>
             @endauth
             <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobileDrawer" class="lg:hidden h-11 px-4 rounded-full border border-white/30 text-brand text-sm font-semibold inline-flex items-center gap-2" aria-label="{{ __('القائمة') }}"><x-icon name="menu" class="w-5 h-5" stroke="2" />{{ __('القائمة') }}</button>
         </div>

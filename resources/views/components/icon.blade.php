@@ -30,6 +30,7 @@ $paths = [
     'menu' => '<path d="M4 7h16M4 12h16M4 17h10"/>',
     'phone' => '<path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>',
     'mail' => '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 7 9 6 9-6"/>',
+    'compare' => '<path d="M4 8h15l-4-4M20 16H5l4 4"/>',
     'chevron-down' => '<path d="m6 9 6 6 6-6"/>',
 ];
 @endphp
