@@ -189,3 +189,22 @@
     .nb-sun, .nb-moon { display: inline-flex; } .nb-moon { display: none; }
     html.dark .nb-sun { display: none; } html.dark .nb-moon { display: inline-flex; }
 </style>
+<style>
+    /* ---------- السيرش (تصميم Palmenburg) ---------- */
+    .sb-tabs { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border-bottom: 1px solid #e2e8f0; }
+    html.dark .sb-tabs { border-color: #243049; }
+    .sb-tab { padding: 1rem .5rem; font-weight: 700; font-size: .95rem; color: #64748b; border-bottom: 3px solid transparent; margin-bottom: -1px; transition: .15s; }
+    .sb-tab:hover { color: #0b2447; } html.dark .sb-tab:hover { color: #fff; }
+    .sb-tab.is-on { color: #0b2447; border-color: #6bbce9; } html.dark .sb-tab.is-on { color: #fff; }
+    .sb-box { display: flex; align-items: center; gap: .7rem; height: 50px; padding: 0 1rem; border: 1px solid #d5deea; border-radius: .75rem; background: #fff; transition: .15s; cursor: pointer; }
+    .sb-box:hover { border-color: #9bb3cc; } .sb-box:focus-within { border-color: #6bbce9; box-shadow: 0 0 0 3px rgba(107,188,233,.22); }
+    html.dark .sb-box { background: #0f172a; border-color: #2a3857; }
+    .sb-box input, .sb-box select { flex: 1; min-width: 0; width: 100%; height: 100%; border: 0; outline: 0; background: transparent; font-size: .9rem; font-weight: 600; color: #0b2447; appearance: none; -webkit-appearance: none; cursor: pointer; }
+    .sb-box input { cursor: text; } .sb-box input::placeholder { color: #94a3b8; font-weight: 500; }
+    html.dark .sb-box input, html.dark .sb-box select { color: #f1f5f9; } html.dark .sb-box select option { color: #0b2447; }
+    .sb-sel select { color: #64748b; }
+    .sb-search { height: 50px; padding: 0 1.8rem; border-radius: .75rem; display: inline-flex; align-items: center; justify-content: center; gap: .6rem; font-weight: 800; color: #fff; background: #0b2447; transition: .18s; }
+    .sb-search:hover { background: #1a3f6b; transform: translateY(-1px); }
+    .sb-search b { font-size: .72rem; background: #6bbce9; color: #0b2447; border-radius: 9999px; padding: .05rem .5rem; }
+    html.dark .sb-search { background: #6bbce9; color: #0b2447; } html.dark .sb-search b { background: #0b2447; color: #fff; }
+</style>
