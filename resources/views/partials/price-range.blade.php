@@ -3,13 +3,21 @@
     $from = (int) ($from ?? 0) ?: $price['min'];
     $to = (int) ($to ?? 0) ?: $price['max'];
     $peak = max(1, max($price['bins']));
+    $pop = !empty($pop);
     $avgPct = ($price['avg'] - $price['min']) / max(1, $price['max'] - $price['min']) * 100;
 @endphp
-<div data-price-range data-min="{{ $price['min'] }}" data-max="{{ $price['max'] }}" data-avg="{{ $price['avg'] }}" data-step="{{ $price['step'] }}" data-unit="{{ __('ج.م') }}" class="pr">
+<div data-price-range data-id="{{ $id ?? '' }}" data-min="{{ $price['min'] }}" data-max="{{ $price['max'] }}" data-avg="{{ $price['avg'] }}" data-step="{{ $price['step'] }}" data-unit="{{ __('ج.م') }}" class="pr">
+    @if ($pop)
+    <div class="grid grid-cols-2 gap-2 mb-4">
+        <input type="number" data-pr-num-lo class="field !min-h-[42px] !py-2 text-center" aria-label="{{ __('أقل إيجار') }}" inputmode="numeric">
+        <input type="number" data-pr-num-hi class="field !min-h-[42px] !py-2 text-center" aria-label="{{ __('أعلى إيجار') }}" inputmode="numeric">
+    </div>
+    @else
     <div class="flex items-end justify-between gap-3 mb-2">
         <label class="label !mb-0">{{ $label ?? __('الإيجار الشهري') }}</label>
         <p class="text-sm font-bold text-ink" dir="ltr"><span data-pr-from>{{ number_format($from) }}</span> <span class="text-slate-400 font-normal">—</span> <span data-pr-to>{{ number_format($to) }}</span> <span class="text-xs font-semibold text-slate-500">{{ __('ج.م') }}</span></p>
     </div>
+    @endif
     <div dir="ltr" class="relative">
         <div class="pr-bins" aria-hidden="true">
             @foreach ($price['bins'] as $b)<i style="height: {{ max(6, round($b / $peak * 100)) }}%"></i>@endforeach
