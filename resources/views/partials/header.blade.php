@@ -25,9 +25,9 @@
     <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 h-20 flex items-center justify-between gap-6">
         @include('partials.logo')
 
-        <nav class="hidden lg:flex items-center gap-9 text-sm font-medium" aria-label="{{ __('الرئيسية') }}">
+        <nav class="hidden lg:flex items-center gap-9 text-[15px] font-semibold" aria-label="{{ __('الرئيسية') }}">
             @foreach ($links as [$route, $label, $active])
-                <a href="{{ route($route) }}" class="relative py-2 transition {{ $active ? 'text-brand' : 'text-white/90 hover:text-brand' }}">
+                <a href="{{ route($route) }}" class="relative py-2 transition {{ $active ? 'text-brand' : 'text-white/90 hover:text-brand' }}" @if($active) aria-current="page" @endif>
                     {{ $label }}
                     @if ($active)<span class="absolute inset-x-0 -bottom-0.5 h-0.5 bg-brand rounded"></span>@endif
                 </a>
