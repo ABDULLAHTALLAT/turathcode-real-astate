@@ -58,7 +58,7 @@
             <div class="mt-3">{{ $properties->links() }}</div>
         @else
             <div class="card p-12 text-center">
-                
+                <span class="mx-auto w-14 h-14 rounded-2xl bg-brand-50 text-brand-dark flex items-center justify-center"><x-icon name="search" class="w-7 h-7" /></span>
                 <p class="font-bold text-ink mt-4">{{ __('مفيش عقارات بالمواصفات دي حالياً') }}</p>
                 <p class="text-sm text-slate-500 mt-1">{{ __('جرّب تغيّر الفلاتر أو ارجع تاني قريب.') }}</p>
                 <a href="{{ route('properties.index') }}" class="btn btn-brand mt-5">{{ __('اعرض كل العقارات') }}</a>
