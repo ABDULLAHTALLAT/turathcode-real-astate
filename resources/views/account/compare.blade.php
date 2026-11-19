@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'مقارنة العقارات')
 @section('content')
-<section class="bg-ink text-white"><div class="max-w-screen-2xl mx-auto px-4 py-10 flex items-center justify-between"><h1 class="text-3xl font-extrabold">مقارنة العقارات</h1>
+<section class="bg-ink text-white"><div class="max-w-screen-2xl mx-auto px-4 py-10 flex items-center justify-between"><h1 class="text-3xl font-extrabold inline-flex items-center gap-3"><x-icon name="scale" class="w-8 h-8 text-brand" />مقارنة العقارات</h1>
     @if ($properties->count())<form method="POST" action="{{ route('compare.clear') }}">@csrf<button class="btn btn-ghost !bg-transparent !text-white !border-white/30">مسح المقارنة</button></form>@endif</div></section>
 <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 @if ($properties->isEmpty())
