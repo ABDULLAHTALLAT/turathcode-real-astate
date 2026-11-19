@@ -8,7 +8,7 @@
     ];
     $user = auth()->user();
     $cmpCount = count(session('compare', []));
-    $pill = 'h-11 px-5 rounded-full border border-white/25 hover:border-brand hover:text-brand inline-flex items-center gap-2 text-sm font-medium transition';
+    $pill = 'h-11 px-5 rounded-full border border-white/25 hover:border-brand hover:text-brand inline-flex items-center gap-2 text-[15px] font-semibold transition';
 @endphp
 
 <header id="topHeader" class="relative bg-ink text-white z-40">
