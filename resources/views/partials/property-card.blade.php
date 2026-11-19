@@ -2,7 +2,7 @@
     $inCompare = in_array($property->id, session('compare', []));
     $u = auth()->user();
     $fav = $u && $u->isTenant() ? $u->favorites->contains($property->id) : false;
-    $pill = 'h-8 px-3 rounded-full text-xs font-semibold shadow transition hover:scale-105';
+    $pill = 'ib w-10 h-10 rounded-full shadow-md ring-1 ring-black/5 backdrop-blur transition hover:scale-110 inline-flex items-center justify-center';
 @endphp
 <article class="group card overflow-hidden hover:shadow-2xl hover:border-brand/60 transition flex flex-col h-full">
     <div class="relative h-52 sm:h-56 bg-slate-100 overflow-hidden">
@@ -22,14 +22,14 @@
         @endif
         <div class="absolute top-4 end-4 flex gap-2">
             @if (! $u)
-                <a href="{{ route('login') }}" class="{{ $pill }} bg-white/95 text-ink inline-flex items-center" title="{{ __('سجّل دخولك لحفظ العقار') }}">{{ __('حفظ') }}</a>
+                <a href="{{ route('login') }}" class="{{ $pill }} bg-white/95 text-ink" title="{{ __('سجّل دخولك لحفظ العقار') }}" aria-label="{{ __('حفظ') }}"><x-icon name="heart" class="w-[18px] h-[18px]" /></a>
             @elseif ($u->isTenant())
                 <form method="POST" action="{{ route('favorites.toggle', $property->id) }}">@csrf
-                    <button class="{{ $pill }} {{ $fav ? 'bg-rose-500 text-white' : 'bg-white/95 text-ink' }}" aria-pressed="{{ $fav ? 'true' : 'false' }}">{{ $fav ? __('محفوظ') : __('حفظ') }}</button>
+                    <button class="{{ $pill }} {{ $fav ? 'bg-rose-500 text-white' : 'bg-white/95 text-ink' }}" aria-pressed="{{ $fav ? 'true' : 'false' }}" aria-label="{{ $fav ? __('محفوظ') : __('حفظ') }}" title="{{ $fav ? __('محفوظ') : __('حفظ') }}"><x-icon name="heart" class="w-[18px] h-[18px] {{ $fav ? 'fill-current' : '' }}" /></button>
                 </form>
             @endif
             <form method="POST" action="{{ route('compare.toggle', $property->id) }}">@csrf
-                <button class="{{ $pill }} {{ $inCompare ? 'bg-ink text-brand' : 'bg-white/95 text-ink' }}" aria-pressed="{{ $inCompare ? 'true' : 'false' }}">{{ $inCompare ? __('في المقارنة') : __('قارن') }}</button>
+                <button class="{{ $pill }} {{ $inCompare ? 'bg-ink text-brand' : 'bg-white/95 text-ink' }}" aria-pressed="{{ $inCompare ? 'true' : 'false' }}" aria-label="{{ $inCompare ? __('في المقارنة') : __('قارن') }}" title="{{ $inCompare ? __('في المقارنة') : __('قارن') }}"><x-icon name="scale" class="w-[18px] h-[18px]" /></button>
             </form>
         </div>
     </div>
