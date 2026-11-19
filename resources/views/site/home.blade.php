@@ -67,18 +67,33 @@
             </div>
         </div>
 
-        <div class="grid sm:grid-cols-2 lg:grid-cols-12 gap-3">
-            <label class="sb-field lg:col-span-4"><x-icon name="search" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('ابحث بالمنطقة أو الاسم') }}</small><input name="q" autocomplete="off" placeholder="{{ __('مثال: مدينة نصر، المنصورة…') }}"></span></label>
-            <label class="sb-field lg:col-span-2"><x-icon name="pin" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('المحافظة') }}</small><select name="governorate"><option value="">{{ __('كل المحافظات') }}</option>@foreach (catalog('governorates') as $g)<option value="{{ $g }}">{{ __($g) }}</option>@endforeach</select></span></label>
-            <label class="sb-field lg:col-span-2"><x-icon name="building" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('نوع العقار') }}</small><select name="type"><option value="">{{ __('الكل') }}</option>@foreach (catalog('property_types') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></span></label>
-            <label class="sb-field lg:col-span-2"><x-icon name="layers" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('مرحلة التشطيب') }}</small><select name="stage"><option value="">{{ __('الكل') }}</option>@foreach ($stages as $k => $v)<option value="{{ $k }}">{{ $v['label'] }}</option>@endforeach</select></span></label>
-            <label class="sb-field lg:col-span-2"><x-icon name="target" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('الغرض') }}</small><select name="purpose"><option value="">{{ __('الكل') }}</option>@foreach (catalog('purposes') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></span></label>
-        </div>
-
-        <div class="grid lg:grid-cols-12 gap-5 lg:gap-8 items-end mt-5 pt-5 border-t border-slate-200/70 dark:border-slate-700">
-            <div class="lg:col-span-7">@include('partials.price-range', ['price' => $price])</div>
-            <label class="sb-field lg:col-span-2"><x-icon name="calendar" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('مدة العقد (سنين)') }}</small><input type="number" name="years" min="1" placeholder="{{ __('مثال: 5') }}"></span></label>
-            <div class="lg:col-span-3"><button class="sb-go"><span>{{ __('عرض') }}</span><b data-count-out>{{ $total }}</b><span>{{ __('عقار') }}</span><x-icon name="arrow-right" class="w-5 h-5" stroke="2.2" /></button></div>
+        <div class="grid lg:grid-cols-12 gap-x-6 gap-y-6">
+            {{-- 1) المكان --}}
+            <fieldset class="lg:col-span-5 sb-group">
+                <legend class="sb-step"><b>1</b>{{ __('المكان') }}</legend>
+                <div class="grid sm:grid-cols-5 gap-3">
+                    <label class="sb-field sm:col-span-3"><x-icon name="search" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('ابحث بالمنطقة أو الاسم') }}</small><input name="q" autocomplete="off" placeholder="{{ __('مثال: مدينة نصر، المنصورة…') }}"></span></label>
+                    <label class="sb-field sm:col-span-2"><x-icon name="pin" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('المحافظة') }}</small><select name="governorate"><option value="">{{ __('كل المحافظات') }}</option>@foreach (catalog('governorates') as $g)<option value="{{ $g }}">{{ __($g) }}</option>@endforeach</select></span></label>
+                </div>
+            </fieldset>
+            {{-- 2) العقار --}}
+            <fieldset class="lg:col-span-7 sb-group">
+                <legend class="sb-step"><b>2</b>{{ __('العقار') }}</legend>
+                <div class="grid sm:grid-cols-3 gap-3">
+                    <label class="sb-field"><x-icon name="building" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('نوع العقار') }}</small><select name="type"><option value="">{{ __('الكل') }}</option>@foreach (catalog('property_types') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></span></label>
+                    <label class="sb-field"><x-icon name="layers" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('مرحلة التشطيب') }}</small><select name="stage"><option value="">{{ __('الكل') }}</option>@foreach ($stages as $k => $v)<option value="{{ $k }}">{{ $v['label'] }}</option>@endforeach</select></span></label>
+                    <label class="sb-field"><x-icon name="target" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('الغرض') }}</small><select name="purpose"><option value="">{{ __('الكل') }}</option>@foreach (catalog('purposes') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></span></label>
+                </div>
+            </fieldset>
+            {{-- 3) السعر والمدة --}}
+            <fieldset class="lg:col-span-12 sb-group">
+                <legend class="sb-step"><b>3</b>{{ __('السعر والمدة') }}</legend>
+                <div class="grid lg:grid-cols-12 gap-5 lg:gap-8 items-end">
+                    <div class="lg:col-span-6">@include('partials.price-range', ['price' => $price])</div>
+                    <label class="sb-field lg:col-span-3"><x-icon name="calendar" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('مدة العقد (سنين)') }}</small><input type="number" name="years" min="1" placeholder="{{ __('مثال: 5') }}"></span></label>
+                    <div class="lg:col-span-3"><button class="sb-go"><span>{{ __('عرض') }}</span><b data-count-out>{{ $total }}</b><span>{{ __('عقار') }}</span><x-icon name="arrow-right" class="w-5 h-5" stroke="2.2" /></button></div>
+                </div>
+            </fieldset>
         </div>
     </form>
 </div>
