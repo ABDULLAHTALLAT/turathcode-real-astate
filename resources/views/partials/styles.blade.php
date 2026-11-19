@@ -170,3 +170,9 @@
     /* في الإنجليزي السهم بيتعكس عشان "السابق" يبقى شمال */
     [dir=ltr] .pg-arrow svg { transform: scaleX(-1); }
 </style>
+<style>
+    .sb-group { border: 0; padding: 0; margin: 0; min-width: 0; }
+    .sb-step { display: flex; align-items: center; gap: .55rem; font-size: .78rem; font-weight: 800; color: #1f7fb8; letter-spacing: .02em; margin-bottom: .6rem; padding: 0; }
+    .sb-step b { width: 22px; height: 22px; border-radius: 50%; background: #0b2447; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: .7rem; }
+    html.dark .sb-step b { background: #6bbce9; color: #0b2447; } html.dark .sb-step { color: #6bbce9; }
+</style>
