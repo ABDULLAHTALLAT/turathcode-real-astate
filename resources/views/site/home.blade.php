@@ -57,43 +57,37 @@
 </section>
 
 {{-- ====================== SEARCH (نص على الهيرو ونص تحته) ====================== --}}
-<div class="relative z-20 -mt-36 sm:-mt-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-    <form action="{{ route('properties.index') }}" method="GET" data-live-count="{{ route('properties.count') }}" class="sb rounded-[1.75rem] shadow-2xl shadow-black/25 ring-1 ring-black/5 p-4 sm:p-6 lg:p-7">
-        <div class="flex flex-wrap items-center justify-between gap-3 px-1 pb-5">
-            <div class="flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-ink text-brand flex items-center justify-center"><x-icon name="search" class="w-5 h-5" stroke="2" /></span>
-                <div><h2 class="text-lg font-extrabold text-ink leading-tight">{{ __('دوّر على عقارك') }}</h2><p class="text-xs text-slate-500">{{ __('فلتر وشوف النتيجة قدامك لحظة بلحظة') }}</p></div></div>
-            <div class="flex flex-wrap gap-2" role="group" aria-label="{{ __('اختصارات') }}">
-                @foreach ($govQuick ?? [] as $g => $n)<button type="button" class="sb-chip" data-chip="governorate" data-value="{{ $g }}">{{ __($g) }}</button>@endforeach
-            </div>
+<div class="relative z-20 -mt-36 sm:-mt-32 max-w-5xl mx-auto px-4 sm:px-6">
+    <form action="{{ route('properties.index') }}" method="GET" data-live-count="{{ route('properties.count') }}" class="sb rounded-2xl shadow-2xl shadow-black/20 ring-1 ring-black/5 px-5 sm:px-7 pt-2 pb-6">
+        <input type="hidden" name="category" value="">
+        <div class="sb-tabs" role="tablist" data-tabs>
+            <button type="button" role="tab" aria-selected="true" class="sb-tab is-on" data-tab="">{{ __('كل العقارات') }}</button>
+            <button type="button" role="tab" aria-selected="false" class="sb-tab" data-tab="residential">{{ __('سكنية') }}</button>
+            <button type="button" role="tab" aria-selected="false" class="sb-tab" data-tab="commercial">{{ __('تجارية وإدارية') }}</button>
         </div>
 
-        <div class="grid lg:grid-cols-12 gap-x-6 gap-y-6">
-            {{-- 1) المكان --}}
-            <fieldset class="lg:col-span-5 sb-group">
-                <legend class="sb-step"><b>1</b>{{ __('المكان') }}</legend>
-                <div class="grid sm:grid-cols-5 gap-3">
-                    <label class="sb-field sm:col-span-3"><x-icon name="search" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('ابحث بالمنطقة أو الاسم') }}</small><input name="q" autocomplete="off" placeholder="{{ __('مثال: مدينة نصر، المنصورة…') }}"></span></label>
-                    <label class="sb-field sm:col-span-2"><x-icon name="pin" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('المحافظة') }}</small><select name="governorate"><option value="">{{ __('كل المحافظات') }}</option>@foreach (catalog('governorates') as $g)<option value="{{ $g }}">{{ __($g) }}</option>@endforeach</select></span></label>
+        <div class="mt-5 grid sm:grid-cols-[1fr_220px] gap-3">
+            <label class="sb-box"><x-icon name="search" class="w-5 h-5 text-slate-400" stroke="1.6" /><input name="q" autocomplete="off" placeholder="{{ __('المنطقة، اسم العقار، المدينة…') }}"></label>
+            <label class="sb-box sb-sel"><select name="governorate" aria-label="{{ __('المحافظة') }}"><option value="">{{ __('كل المحافظات') }}</option>@foreach (catalog('governorates') as $g)<option value="{{ $g }}">{{ __($g) }}</option>@endforeach</select><x-icon name="chevron-down" class="w-4 h-4 text-slate-400" stroke="1.8" /></label>
+        </div>
+
+        <div class="mt-3 grid sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] gap-3">
+            <label class="sb-box sb-sel"><select name="type" aria-label="{{ __('نوع العقار') }}"><option value="">{{ __('نوع العقار') }}</option>@foreach (catalog('property_types') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select><x-icon name="chevron-down" class="w-4 h-4 text-slate-400" stroke="1.8" /></label>
+            <label class="sb-box sb-sel"><select name="stage" aria-label="{{ __('مرحلة التشطيب') }}"><option value="">{{ __('مرحلة التشطيب') }}</option>@foreach ($stages as $k => $v)<option value="{{ $k }}">{{ $v['label'] }}</option>@endforeach</select><x-icon name="chevron-down" class="w-4 h-4 text-slate-400" stroke="1.8" /></label>
+            <label class="sb-box sb-sel"><select name="rooms" aria-label="{{ __('غرف النوم') }}"><option value="">{{ __('غرف النوم') }}</option>@foreach ([1, 2, 3, 4, 5] as $r)<option value="{{ $r }}">{{ $r }}+</option>@endforeach</select><x-icon name="chevron-down" class="w-4 h-4 text-slate-400" stroke="1.8" /></label>
+
+            <div class="relative" data-pop>
+                <button type="button" class="sb-box sb-sel w-full text-start" data-pop-btn aria-expanded="false" aria-haspopup="dialog">
+                    <span class="flex-1 truncate text-sm font-semibold text-slate-500" data-pr-summary="home" data-empty="{{ __('نطاق السعر') }}">{{ __('نطاق السعر') }}</span><x-icon name="chevron-down" class="w-4 h-4 text-slate-400" stroke="1.8" />
+                </button>
+                <div data-pop-panel class="hidden absolute z-30 top-[calc(100%+.6rem)] inset-x-0 lg:inset-x-auto lg:end-0 lg:w-[22rem] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl ring-1 ring-black/10 p-5" role="dialog" aria-label="{{ __('نطاق السعر') }}">
+                    <p class="font-extrabold text-ink mb-3">{{ __('نطاق السعر') }} <span class="text-xs font-semibold text-slate-500">({{ __('ج.م') }} / {{ __('شهر') }})</span></p>
+                    @include('partials.price-range', ['price' => $price, 'pop' => true, 'id' => 'home'])
+                    <button type="button" data-pop-close class="btn btn-primary w-full !min-h-[44px] mt-4">{{ __('تطبيق') }}</button>
                 </div>
-            </fieldset>
-            {{-- 2) العقار --}}
-            <fieldset class="lg:col-span-7 sb-group">
-                <legend class="sb-step"><b>2</b>{{ __('العقار') }}</legend>
-                <div class="grid sm:grid-cols-3 gap-3">
-                    <label class="sb-field"><x-icon name="building" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('نوع العقار') }}</small><select name="type"><option value="">{{ __('الكل') }}</option>@foreach (catalog('property_types') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></span></label>
-                    <label class="sb-field"><x-icon name="layers" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('مرحلة التشطيب') }}</small><select name="stage"><option value="">{{ __('الكل') }}</option>@foreach ($stages as $k => $v)<option value="{{ $k }}">{{ $v['label'] }}</option>@endforeach</select></span></label>
-                    <label class="sb-field"><x-icon name="target" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('الغرض') }}</small><select name="purpose"><option value="">{{ __('الكل') }}</option>@foreach (catalog('purposes') as $k => $v)<option value="{{ $k }}">{{ $v }}</option>@endforeach</select></span></label>
-                </div>
-            </fieldset>
-            {{-- 3) السعر والمدة --}}
-            <fieldset class="lg:col-span-12 sb-group">
-                <legend class="sb-step"><b>3</b>{{ __('السعر والمدة') }}</legend>
-                <div class="grid lg:grid-cols-12 gap-5 lg:gap-8 items-end">
-                    <div class="lg:col-span-6">@include('partials.price-range', ['price' => $price])</div>
-                    <label class="sb-field lg:col-span-3"><x-icon name="calendar" class="w-5 h-5" /><span class="min-w-0 flex-1"><small>{{ __('مدة العقد (سنين)') }}</small><input type="number" name="years" min="1" placeholder="{{ __('مثال: 5') }}"></span></label>
-                    <div class="lg:col-span-3"><button class="sb-go"><span>{{ __('عرض') }}</span><b data-count-out>{{ $total }}</b><span>{{ __('عقار') }}</span><x-icon name="arrow-right" class="w-5 h-5" stroke="2.2" /></button></div>
-                </div>
-            </fieldset>
+            </div>
+
+            <button class="sb-search"><x-icon name="search" class="w-5 h-5" stroke="2" /><span>{{ __('بحث') }}</span><b data-count-out>{{ $total }}</b></button>
         </div>
     </form>
 </div>
