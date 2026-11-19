@@ -70,6 +70,8 @@ class Property extends Model
                 ->orWhere('district', 'like', "%$v%")->orWhere('governorate', 'like', "%$v%")))
             ->when($f['governorate'] ?? null, fn ($q, $v) => $q->where('governorate', $v))
             ->when($f['type'] ?? null, fn ($q, $v) => $q->where('property_type', $v))
+            ->when($f['category'] ?? null, fn ($q, $v) => $q->whereIn('property_type', $v === 'commercial' ? ['shop', 'office', 'warehouse'] : ['apartment', 'villa', 'duplex', 'building', 'floor', 'land_building']))
+            ->when($f['rooms'] ?? null, fn ($q, $v) => $q->where('rooms', '>=', (int) $v))
             ->when($f['stage'] ?? null, fn ($q, $v) => $q->where('finishing_stage', $v))
             ->when($f['purpose'] ?? null, fn ($q, $v) => $q->whereJsonContains('allowed_purposes', $v))
             ->when($f['min_price'] ?? null, fn ($q, $v) => $q->where('offered_rent', '>=', (int) $v))
