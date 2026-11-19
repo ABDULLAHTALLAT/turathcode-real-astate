@@ -168,9 +168,9 @@
         </div>
 
         <div class="flex gap-2">
-            <form method="POST" action="{{ route('compare.toggle', $property->id) }}" class="flex-1">@csrf<button class="btn btn-ghost w-full">{{ __('قارن') }}</button></form>
+            <form method="POST" action="{{ route('compare.toggle', $property->id) }}" class="flex-1">@csrf<button class="btn btn-ghost w-full"><x-icon name="scale" class="w-5 h-5" />{{ __('قارن') }}</button></form>
             @if ($u?->isTenant())
-                <form method="POST" action="{{ route('favorites.toggle', $property->id) }}" class="flex-1">@csrf<button class="btn btn-ghost w-full {{ $isFav ? '!text-rose-500' : '' }}">{{ $isFav ? __('في المفضلة') : __('احفظ') }}</button></form>
+                <form method="POST" action="{{ route('favorites.toggle', $property->id) }}" class="flex-1">@csrf<button class="btn btn-ghost w-full {{ $isFav ? '!text-rose-500 !border-rose-300' : '' }}"><x-icon name="heart" class="w-5 h-5 {{ $isFav ? 'fill-current' : '' }}" />{{ $isFav ? __('في المفضلة') : __('احفظ') }}</button></form>
             @endif
         </div>
     </aside>
