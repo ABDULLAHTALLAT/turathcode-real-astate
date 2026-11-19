@@ -52,7 +52,7 @@
                 <a href="{{ route('login') }}" class="hidden sm:inline-flex {{ $pill }}"><x-icon name="log-in" class="w-[18px] h-[18px]" />{{ __('دخول') }}</a>
                 <a href="{{ route('register') }}" class="hidden sm:inline-flex btn btn-brand !h-11 !px-6">{{ __('سجّل مجاناً') }}</a>
             @endauth
-            <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobileDrawer" class="lg:hidden h-11 px-5 rounded-full border border-white/30 text-brand text-sm font-semibold" aria-label="{{ __('القائمة') }}">{{ __('القائمة') }}</button>
+            <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobileDrawer" class="lg:hidden h-11 px-4 rounded-full border border-white/30 text-brand text-sm font-semibold inline-flex items-center gap-2" aria-label="{{ __('القائمة') }}"><x-icon name="menu" class="w-5 h-5" stroke="2" />{{ __('القائمة') }}</button>
         </div>
     </div>
 </header>
@@ -79,7 +79,7 @@
 <aside data-drawer aria-hidden="true" class="fixed inset-y-0 end-0 z-[100] w-[86%] max-w-sm bg-ink text-white flex flex-col shadow-2xl border-s border-brand/30 translate-x-full rtl:-translate-x-full invisible transition-transform duration-300 lg:hidden">
     <div class="flex items-center justify-between px-6 pt-6 pb-5 border-b border-white/10">
         @include('partials.logo', ['size' => 'h-10'])
-        <button type="button" data-drawer-close class="h-10 px-4 rounded-full border border-white/25 hover:text-brand text-sm" aria-label="{{ __('إغلاق') }}">{{ __('إغلاق') }}</button>
+        <button type="button" data-drawer-close class="h-10 px-4 rounded-full border border-white/25 hover:text-brand text-sm inline-flex items-center gap-2" aria-label="{{ __('إغلاق') }}"><x-icon name="x" class="w-4 h-4" stroke="2.2" />{{ __('إغلاق') }}</button>
     </div>
     <nav class="flex-1 overflow-y-auto px-6 py-4">
         <ul class="divide-y divide-white/10">
