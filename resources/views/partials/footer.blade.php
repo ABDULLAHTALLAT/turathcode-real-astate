@@ -5,8 +5,8 @@
             <p class="text-base leading-8 max-w-lg">{{ __('«بيتك في ايدك» منصة مصرية بتربط أصحاب العقارات المعطلة بمستأجرين مستعدين يكملوا التشطيب ويستأجروا لمدد طويلة بسعر أقل. كله بوضوح، وبعقد، وعن طريق المنصة.') }}</p>
             <div class="flex flex-wrap gap-x-7 gap-y-2 mt-7 text-sm">
                 <a href="https://wa.me/{{ config('site.whatsapp') }}" target="_blank" rel="noopener" class="hover:text-brand underline-offset-4 hover:underline">{{ __('واتساب') }}</a>
-                <a href="mailto:{{ config('site.email') }}" class="hover:text-brand underline-offset-4 hover:underline">{{ config('site.email') }}</a>
-                <a href="tel:{{ preg_replace('/\s+/', '', config('site.phone')) }}" class="hover:text-brand underline-offset-4 hover:underline" dir="ltr">{{ config('site.phone') }}</a>
+                <a href="mailto:{{ config('site.email') }}" class="hover:text-brand inline-flex items-center gap-2"><x-icon name="mail" class="w-4 h-4" />{{ config('site.email') }}</a>
+                <a href="tel:{{ preg_replace('/\s+/', '', config('site.phone')) }}" class="hover:text-brand inline-flex items-center gap-2" dir="ltr"><x-icon name="phone" class="w-4 h-4" />{{ config('site.phone') }}</a>
             </div>
         </div>
         <div class="md:col-span-2 md:col-start-7">
