@@ -181,3 +181,11 @@
     .ib:active { transform: scale(.94); }
     .ib:focus-visible { outline: 3px solid #6bbce9; outline-offset: 2px; }
 </style>
+<style>
+    /* ---------- أيقونات النافبار ---------- */
+    .nb { position: relative; width: 40px; height: 40px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; color: rgba(255,255,255,.9); transition: .15s; }
+    .nb:hover { color: #6bbce9; background: rgba(255,255,255,.1); }
+    .nb-badge { position: absolute; top: 1px; inset-inline-start: 1px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9999px; background: #6bbce9; color: #0b2447; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+    .nb-sun, .nb-moon { display: inline-flex; } .nb-moon { display: none; }
+    html.dark .nb-sun { display: none; } html.dark .nb-moon { display: inline-flex; }
+</style>
