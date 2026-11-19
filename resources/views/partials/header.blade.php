@@ -86,7 +86,7 @@
             @foreach ($links as [$route, $label, $active])
                 <li><a href="{{ route($route) }}" class="flex items-center justify-between py-4 text-lg font-semibold {{ $active ? 'text-brand' : 'text-white/90 hover:text-brand' }}">{{ $label }}</a></li>
             @endforeach
-            <li><a href="{{ route('lang', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" class="block py-4 text-lg font-semibold text-brand">{{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}</a></li>
+            <li><a href="{{ route('lang', app()->getLocale() === 'ar' ? 'en' : 'ar') }}" class="flex items-center gap-3 py-4 text-lg font-semibold text-brand"><x-icon name="globe" class="w-5 h-5" />{{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}</a></li>
             <li><a href="{{ route('compare') }}" class="flex items-center gap-3 py-4 text-lg font-semibold text-white/90 hover:text-brand"><x-icon name="scale" class="w-5 h-5" />{{ __('المقارنة') }}</a></li>
             @auth
                 <li><a href="{{ route('dashboard') }}" class="block py-4 text-lg font-semibold text-brand">{{ __('لوحة التحكم') }}</a></li>
